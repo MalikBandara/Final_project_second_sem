@@ -5,11 +5,10 @@ import org.example.secondsemlastp.dto.HospitalDto;
 import org.example.secondsemlastp.service.HospitalService;
 import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/hospitals")
 public class HospitalController {
@@ -21,6 +20,11 @@ public class HospitalController {
     private ResponseUtil saveHospitals(@RequestBody HospitalDto hospitalDto){
             hospitalService.saveHospitals(hospitalDto);
             return new ResponseUtil(200 , "Hospital Saved" , null);
+    }
+
+    @GetMapping("getAll")
+    private ResponseUtil getAllHospitals(){
+            return new ResponseUtil(200 , "Hospital Loaded" , hospitalService.loadHospitals());
     }
 
 

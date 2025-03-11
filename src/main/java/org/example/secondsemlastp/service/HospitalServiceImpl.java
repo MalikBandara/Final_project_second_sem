@@ -4,8 +4,11 @@ import org.example.secondsemlastp.dto.HospitalDto;
 import org.example.secondsemlastp.entity.Hospital;
 import org.example.secondsemlastp.repo.HospitalRepo;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -29,5 +32,10 @@ public class HospitalServiceImpl implements HospitalService {
 
 
 
+    }
+
+    @Override
+    public List<HospitalDto> loadHospitals() {
+            return modelMapper.map(hospitalRepo.findAll(), new TypeToken<List<HospitalDto>>(){}.getType());
     }
 }
