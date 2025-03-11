@@ -2,9 +2,12 @@ package org.example.secondsemlastp.controller;
 
 
 import org.example.secondsemlastp.dto.HospitalDto;
+import org.example.secondsemlastp.entity.Hospital;
+import org.example.secondsemlastp.repo.HospitalRepo;
 import org.example.secondsemlastp.service.HospitalService;
 import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,6 +19,9 @@ public class HospitalController {
 
     @Autowired
     private HospitalService hospitalService;
+
+    @Autowired
+    private HospitalRepo hospitalRepository;
     @PostMapping("save")
     private ResponseUtil saveHospitals(@RequestBody HospitalDto hospitalDto){
             hospitalService.saveHospitals(hospitalDto);
@@ -26,6 +32,8 @@ public class HospitalController {
     private ResponseUtil getAllHospitals(){
             return new ResponseUtil(200 , "Hospital Loaded" , hospitalService.loadHospitals());
     }
+
+
 
 
 

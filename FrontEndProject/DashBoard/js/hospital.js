@@ -1,3 +1,5 @@
+//save data into mysql
+
 $("#btnSaveHospitals").click(function (){
     
     console.log("Hospital click");
@@ -27,7 +29,7 @@ $("#btnSaveHospitals").click(function (){
     });
 })
 
-
+// load data into table
 
 function loadAllHospitals(){
 
@@ -47,15 +49,15 @@ function loadAllHospitals(){
                 <td>${hospital.location}</td>
                 <td>${hospital.contact}</td>
                 <td>
-                <button class="action-button bg-secondary edit-button" onclick="loadDataToInputFields('${escapeHtml(hospital.hospitalName)}', '${escapeHtml(hospital.location)}', '${escapeHtml(hospital.contact)}')" data-id="${hospital.hospitalId}">
-                    <i class="fas fa-edit"></i> Edit
-                </button>
+                <button class="action-button bg-secondary edit-button" onclick="loadDataToInputFields()">Delete</button>
             </td>
                 `;
 
                 tableBody.append(data);
             });
             alert("Hospitals data loaded !")
+
+            LoadDataIntoInput();
 
         },
         error:function (error){
@@ -69,24 +71,28 @@ function loadAllHospitals(){
 
 
 
-function loadDataToInputFields(name, location, contact) {
-    console.log("Hospital Name:", name);
-    console.log("Location:", location);
-    console.log("Contact:", contact);
+//load data into input fields
 
-    // Example: Populate input fields
-    document.getElementById('hospitalNameInput').value = name;
-    document.getElementById('locationInput').value = location;
-    document.getElementById('contactInput').value = contact;
+function LoadDataIntoInput(){
+
+    $("#HospitalTableBody tr").click(function (){
+
+        $("#HospitalTableBody tr").removeClass("selected");
+
+        $(this).addClass("selected");
+
+        let HospitalId = $(this).find("td:eq(0)").text();
+        let HospitalName = $(this).find("td:eq(1)").text();
+        let HospitalAddress = $(this).find("td:eq(2)").text();
+        let contact = $(this).find("td:eq(3)").text();
+
+        $("#name").val(HospitalName);
+        $("#location").val(HospitalAddress);
+        $("#contact").val(contact);
+
+    })
+
 }
 
 
 loadAllHospitals();
-
-function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
