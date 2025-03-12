@@ -12,4 +12,8 @@ public interface HospitalService {
      void saveHospitals(HospitalDto hospitalDto) ;
 
      List<HospitalDto> loadHospitals();
+
+     void updateHospitals(HospitalDto hospitalDto);
+
+     void deleteHospital(Integer id);
 }

@@ -43,6 +43,10 @@
     <form class="mb-4">
       <div class="row">
         <div class="col-md-4">
+          <label for="name" class="form-label" >Hospital Id</label>
+          <h5 id="HospitalId"></h5>
+        </div>
+        <div class="col-md-4">
           <label for="name" class="form-label">Hospital Name</label>
           <input type="text" class="form-control" id="name" placeholder="Enter hospital name" required>
         </div>
@@ -55,9 +59,11 @@
           <input type="text" class="form-control" id="contact" placeholder="Enter contact number" required>
         </div>
       </div>
-      <button type="button" class="btn bg-danger bg-gradient mt-3 me-3 text-light bg-opacity-70" id="btnSaveHospitals">Save Hospital</button>
+      <button type="button" class="btn bg-success bg-gradient mt-3 me-3 text-light bg-opacity-70" id="btnSaveHospitals">Save Hospital</button>
 
-      <button type="button" class="btn bg-danger bg-gradient mt-3 text-light bg-opacity-70" id="btnUpdateHospitals">Update Hospital</button>
+      <button type="button" class="btn bg-primary bg-gradient mt-3 me-3 text-light bg-opacity-70" id="btnUpdateHospitals">Update Hospital</button>
+
+      <button type="button" class="btn bg-secondary bg-gradient mt-3  text-light bg-opacity-70" id="btnClear">Clear </button>
     </form>
 
     <!-- Table to Display Hospitals -->
@@ -68,7 +74,7 @@
           <th>Hospital Name</th>
           <th>Location</th>
           <th>Contact</th>
-          <th>Actions</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody id="HospitalTableBody">

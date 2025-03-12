@@ -1,8 +1,9 @@
-package org.example.secondsemlastp.service;
+package org.example.secondsemlastp.service.impl;
 
 import org.example.secondsemlastp.dto.HospitalDto;
 import org.example.secondsemlastp.entity.Hospital;
 import org.example.secondsemlastp.repo.HospitalRepo;
+import org.example.secondsemlastp.service.HospitalService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,29 @@ public class HospitalServiceImpl implements HospitalService {
 
     }
 
+
+
     @Override
     public List<HospitalDto> loadHospitals() {
             return modelMapper.map(hospitalRepo.findAll(), new TypeToken<List<HospitalDto>>(){}.getType());
+    }
+
+    @Override
+    public void updateHospitals(HospitalDto hospitalDto) {
+        if (hospitalRepo.existsById(hospitalDto.getHospitalId())){
+            hospitalRepo.save(modelMapper.map(hospitalDto , Hospital.class));
+        }else {
+            throw new RuntimeException("cant find hospital id to update");
+        }
+
+    }
+
+    @Override
+    public void deleteHospital(Integer id) {
+        if (hospitalRepo.existsById(id)){
+            hospitalRepo.deleteById(id);
+        }else {
+            throw new RuntimeException("can't find id ");
+        }
     }
 }

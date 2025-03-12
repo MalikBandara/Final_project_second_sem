@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -27,4 +30,7 @@ public class Hospital {
 
     @Column(name = "contact", length = 15)
     private String contact;
+
+    @ManyToMany(mappedBy = "hospitals")
+    private Set<BloodBank> bloodBankSet = new HashSet<>();
 }

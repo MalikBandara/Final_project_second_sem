@@ -1,4 +1,5 @@
 //save data into mysql
+var HospitalId;
 
 $("#btnSaveHospitals").click(function (){
     
@@ -19,6 +20,7 @@ $("#btnSaveHospitals").click(function (){
         dataType:"json",
         success:function(resp){
             alert(resp.message);
+            loadAllHospitals();
         },
         error:function(error){
             alert("Error in saving hospital");
@@ -27,6 +29,42 @@ $("#btnSaveHospitals").click(function (){
         
 
     });
+})
+
+
+
+//update hospitals
+
+
+$("#btnUpdateHospitals").click(function (){
+
+
+
+    const data = {
+        hospitalId:HospitalId,
+        hospitalName: $("#name").val(),
+        location: $("#location").val(),
+        contact: $("#contact").val()
+    }
+    console.log("hospital id"+ HospitalId);
+
+    $.ajax({
+        url:"http://localhost:8081/api/v1/hospitals/update",
+        method:"PUT",
+        contentType:"application/json",
+        data:JSON.stringify(data),
+        dataType:"json",
+        success:function (response){
+            alert(response.message)
+            loadAllHospitals();
+        },
+        error:function (error){
+            alert(error.message)
+        }
+    })
+
+
+
 })
 
 // load data into table
@@ -49,13 +87,15 @@ function loadAllHospitals(){
                 <td>${hospital.location}</td>
                 <td>${hospital.contact}</td>
                 <td>
-                <button class="action-button bg-secondary edit-button" onclick="loadDataToInputFields()">Delete</button>
-            </td>
+    <button type="button" class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="deleteHospital(${hospital.hospitalId})">
+        <i class="fas fa-trash-alt"></i> 
+    </button>
+</td>
                 `;
 
                 tableBody.append(data);
             });
-            alert("Hospitals data loaded !")
+
 
             LoadDataIntoInput();
 
@@ -70,6 +110,28 @@ function loadAllHospitals(){
 }
 
 
+function deleteHospital(hospitalId){
+
+    $.ajax({
+        url:`http://localhost:8081/api/v1/hospitals/delete/${hospitalId}`,
+        method:"DELETE",
+        success:function (response){
+            alert(response.message)
+            loadAllHospitals();
+            $("#HospitalId").text("");
+            $("#name").val("");
+            $("#location").val("");
+            $("#contact").val("");
+
+        },
+        error:function (error){
+            alert(error.message)
+        }
+
+    })
+}
+
+
 
 //load data into input fields
 
@@ -81,7 +143,9 @@ function LoadDataIntoInput(){
 
         $(this).addClass("selected");
 
-        let HospitalId = $(this).find("td:eq(0)").text();
+        HospitalId = $(this).find("td:eq(0)").text();
+        $("#HospitalId").text(HospitalId);
+        console.log(HospitalId)
         let HospitalName = $(this).find("td:eq(1)").text();
         let HospitalAddress = $(this).find("td:eq(2)").text();
         let contact = $(this).find("td:eq(3)").text();
@@ -93,6 +157,14 @@ function LoadDataIntoInput(){
     })
 
 }
+$("#btnClear").click(function (){
+
+        $("#HospitalId").text("");
+        $("#name").val("");
+        $("#location").val("");
+        $("#contact").val("");
+    })
+
 
 
 loadAllHospitals();
