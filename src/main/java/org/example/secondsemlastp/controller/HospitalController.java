@@ -20,8 +20,7 @@ public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
 
-    @Autowired
-    private HospitalRepo hospitalRepository;
+
     @PostMapping("save")
     private ResponseUtil saveHospitals(@RequestBody HospitalDto hospitalDto){
             hospitalService.saveHospitals(hospitalDto);

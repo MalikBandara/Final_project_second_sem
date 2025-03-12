@@ -1,11 +1,11 @@
 package org.example.secondsemlastp.controller;
 
 
+import org.example.secondsemlastp.dto.BloodBankDto;
 import org.example.secondsemlastp.service.BloodBankService;
+import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/bloodBank")
@@ -14,5 +14,31 @@ public class BloodBankController {
 
     @Autowired
     private BloodBankService bloodBankService;
+    @PostMapping("save")
+    private ResponseUtil saveBloodBank(@RequestBody BloodBankDto bloodBankDto){
+        System.out.println(bloodBankDto.getName());
+        bloodBankService.saveBloodBank(bloodBankDto);
+        return new ResponseUtil(200 , "blood bank created " , null);
+    }
+
+
+    @PutMapping("update")
+    private ResponseUtil updateBloodBank(@RequestBody BloodBankDto bloodBankDto){
+        bloodBankService.updateBloodBank(bloodBankDto);
+        return new ResponseUtil(201 , "blood bank updated ", null);
+    }
+
+    @GetMapping("getAll")
+    private ResponseUtil loadAllData(){
+
+        return new ResponseUtil(200, "BloodBank All Loaded" , bloodBankService.loadAllBank());
+    }
+
+
+    @DeleteMapping("delete/{id}")
+    private ResponseUtil deleteBloodBank(@PathVariable Integer id){
+        bloodBankService.deleteBloodBank(id);
+        return  new ResponseUtil(201 , "Blood Bank deleted" , null);
+    }
 
 }

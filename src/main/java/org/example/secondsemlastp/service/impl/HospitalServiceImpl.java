@@ -35,11 +35,9 @@ public class HospitalServiceImpl implements HospitalService {
 
     }
 
-
-
     @Override
     public List<HospitalDto> loadHospitals() {
-            return modelMapper.map(hospitalRepo.findAll(), new TypeToken<List<HospitalDto>>(){}.getType());
+            return modelMapper.map(hospitalRepo.findAll(), new TypeToken<List<Hospital>>(){}.getType());
     }
 
     @Override

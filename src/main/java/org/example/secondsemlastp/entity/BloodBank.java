@@ -20,8 +20,8 @@ public class BloodBank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int BloodBankID;
-    private String BloodBankName;
+    private int bloodBankID;
+    private String bloodBankName;
     private String location;
     private String contact;
 

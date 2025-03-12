@@ -11,8 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BloodBankDto {
-    private int BloodBankID;
-    private String BloodBankName;
+    private int bloodBankID;
+    private String name;
     private String location;
     private String contact;
 }
