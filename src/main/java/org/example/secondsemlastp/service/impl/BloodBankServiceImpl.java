@@ -9,7 +9,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -53,5 +56,21 @@ public class BloodBankServiceImpl implements BloodBankService {
         }
         bloodBankRepo.save(modelMapper.map(bloodBankDto, BloodBank.class));
     }
+
+    @Override
+    public List<Map<String,Object>> findIds() {
+        List<Object[]> result = bloodBankRepo.findAllBloodBankIds();
+        List<Map<String,Object>> bloodBankDetails =  new ArrayList<>();
+
+        for(Object[] row: result){
+            Map<String , Object> map = new HashMap<>();
+            map.put("Blood bank id " , row[0]);
+            map.put("Blood bank name" ,row[1]);
+            bloodBankDetails.add(map);
+        }
+        return bloodBankDetails;
+
+    }
+
 
 }

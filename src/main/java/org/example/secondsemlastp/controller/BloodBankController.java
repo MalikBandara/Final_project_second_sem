@@ -7,6 +7,9 @@ import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/bloodBank")
 @CrossOrigin(origins = "*") // end point
@@ -41,4 +44,13 @@ public class BloodBankController {
         return  new ResponseUtil(201 , "Blood Bank deleted" , null);
     }
 
+
+
+    //first only want to get id I use integer return
+    //but after that I want to return id and name that's why I use this
+    @GetMapping("getId")
+    private ResponseUtil loadBloodBankIds(){
+        List<Map<String,Object>> bloodbanks = bloodBankService.findIds();
+        return new ResponseUtil(201, "ids load" ,bloodbanks);
+    }
 }

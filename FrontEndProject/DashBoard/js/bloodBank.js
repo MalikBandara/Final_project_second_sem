@@ -1,5 +1,9 @@
 var bloodBankId ;
 
+$(document).ready(function () {
+    loadBloodBankIds()
+});
+
 $("#btnSaveBloodBank").click(function (){
     console.log("test");
 
@@ -148,3 +152,53 @@ $("#btnClearBloodBank").click(function (){
     $("#location").val("");
     $("#contact").val("");
 });
+
+
+function loadBloodBankIds() {
+    $.ajax({
+        url: "http://localhost:8081/api/v1/bloodBank/getId",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+            console.log(response.data);  // Log the response to check the data structure
+            let dropdown = $("#bloodBank");
+            dropdown.empty();
+            dropdown.append(`<option value="">Select a Blood Bank</option>`);
+
+            // Iterate over each object in the response.data array
+            response.data.forEach(bloodBank => {
+                let bloodBankId = bloodBank['Blood bank id '];  // Access the Blood bank id
+                let bloodBankName = bloodBank['Blood bank name'];  // Access the Blood bank name
+
+                // Create the dropdown option with both ID and Name
+                let option = `<option value="${bloodBankId}">${bloodBankId}</option>`;
+                dropdown.append(option);
+            });
+
+            // Add event listener to update the name when a blood bank ID is selected
+            dropdown.change(function() {
+                let selectedId = $(this).val();  // Get the selected blood bank ID
+                if (selectedId) {
+                    // Find the selected blood bank from the response data
+                    let selectedBloodBank = response.data.find(bloodBank => bloodBank['Blood bank id '] == selectedId);
+                    if (selectedBloodBank) {
+                        let bloodBankName = selectedBloodBank['Blood bank name'];  // Get the name for the selected ID
+                        // Set the Blood Bank name to the h4 tag
+                        $("#BloodBankName").text(bloodBankName);
+                    }
+                } else {
+                    // If no blood bank is selected, clear the name
+                    $("#BloodBankName").text("");
+                }
+            });
+        },
+        error: function (error) {
+            console.error("Error fetching blood banks:", error);
+        },
+    });
+}
+
+
+
+
+

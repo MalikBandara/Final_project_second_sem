@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,4 +35,7 @@ public class BloodBank {
             inverseJoinColumns = @JoinColumn(name = "hosipital_id") // hospital table column name
     )
     private Set<Hospital> hospitals = new HashSet<>(); //use for map by in hospital side.
+
+    @OneToMany(mappedBy = "bloodBank")
+    private List<Blood> bloodPacket;
 }
