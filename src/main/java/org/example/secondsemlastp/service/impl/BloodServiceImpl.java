@@ -35,7 +35,7 @@ public class BloodServiceImpl implements BloodService {
         }
 
         //search the blood bank id from database
-        BloodBank bloodBank = bloodBankRepo.findById(bloodDto.getBloodBank()).orElseThrow(() -> new RuntimeException("BloodBank id not found"));
+        BloodBank bloodBank = bloodBankRepo.findById(bloodDto.getBloodBankId()).orElseThrow(() -> new RuntimeException("BloodBank id not found"));
 
         //convert dto into entity
         Blood blood = modelMapper.map(bloodDto, Blood.class);
@@ -54,6 +54,12 @@ public class BloodServiceImpl implements BloodService {
 
     @Override
     public List<BloodDto> loadAllBlood() {
-        return modelMapper.map(bloodRepo.findAll() , new TypeToken<List<Blood>>(){}.getType());
+        List<Blood> bloodList = bloodRepo.findAll();
+        return bloodList.stream().map(blood -> {
+            BloodDto dto = modelMapper.map(blood, BloodDto.class);
+            dto.setBloodBankId(blood.getBloodBank().getBloodBankID());  // Manually set BloodBank ID
+            return dto;
+        }).toList();
     }
+
 }

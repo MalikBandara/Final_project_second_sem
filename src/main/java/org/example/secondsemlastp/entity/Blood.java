@@ -1,6 +1,8 @@
 package org.example.secondsemlastp.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,9 +25,11 @@ public class Blood {
     private String bloodGroup;
     private Double bloodQty;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bloodBankId")
+    @JsonBackReference //add this for creating loop in getData Json use for bidirectional relationship
     private BloodBank bloodBank;
+
 
 
 

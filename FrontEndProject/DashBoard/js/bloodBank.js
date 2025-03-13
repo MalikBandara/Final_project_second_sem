@@ -86,7 +86,7 @@ function loadBloodBank (){
             loadDataIntoInputFields();
         },
         error:function (error){
-            alert(error.message)
+            // alert(error.message)
         }
     })
 
@@ -160,7 +160,12 @@ function loadBloodBankIds() {
         method: "GET",
         dataType: "json",
         success: function (response) {
-            console.log(response.data);  // Log the response to check the data structure
+            if (response.data.length === 0) {
+                alert("No blood banks found.");
+            } else {
+                alert("Blood banks loaded successfully.");
+            }
+            // Log the response to check the data structure
             let dropdown = $("#bloodBank");
             dropdown.empty();
             dropdown.append(`<option value="">Select a Blood Bank</option>`);

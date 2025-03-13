@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/blood")
+@CrossOrigin(origins = "*")
 public class BloodController {
 
     @Autowired

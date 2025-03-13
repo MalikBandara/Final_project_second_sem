@@ -1,6 +1,8 @@
 package org.example.secondsemlastp.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,5 +39,7 @@ public class BloodBank {
     private Set<Hospital> hospitals = new HashSet<>(); //use for map by in hospital side.
 
     @OneToMany(mappedBy = "bloodBank")
+    @JsonManagedReference // use for bidirectional relationship
     private List<Blood> bloodPacket;
+
 }
