@@ -1,0 +1,59 @@
+package org.example.secondsemlastp.service.impl;
+
+import org.example.secondsemlastp.dto.BloodDto;
+import org.example.secondsemlastp.entity.Blood;
+import org.example.secondsemlastp.entity.BloodBank;
+import org.example.secondsemlastp.repo.BloodBankRepo;
+import org.example.secondsemlastp.repo.BloodRepo;
+import org.example.secondsemlastp.service.BloodService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BloodServiceImpl implements BloodService {
+
+
+    @Autowired
+    private BloodRepo bloodRepo;
+
+    @Autowired
+    private BloodBankRepo bloodBankRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    public void saveBlood(BloodDto bloodDto) {
+
+        //id eka exist ?
+        if (bloodRepo.existsById(bloodDto.getBloodID())){
+            throw  new RuntimeException("id already exist");
+        }
+
+        //search the blood bank id from database
+        BloodBank bloodBank = bloodBankRepo.findById(bloodDto.getBloodBank()).orElseThrow(() -> new RuntimeException("BloodBank id not found"));
+
+        //convert dto into entity
+        Blood blood = modelMapper.map(bloodDto, Blood.class);
+        blood.setBloodBank(bloodBank);
+        bloodRepo.save(blood);
+    }
+
+    @Override
+    public void deleteBlood(Integer id) {
+        if (bloodRepo.existsById(id)){
+            bloodRepo.deleteById(id);
+        }else {
+            throw new RuntimeException("id doesn't exist");
+        }
+    }
+
+    @Override
+    public List<BloodDto> loadAllBlood() {
+        return modelMapper.map(bloodRepo.findAll() , new TypeToken<List<Blood>>(){}.getType());
+    }
+}

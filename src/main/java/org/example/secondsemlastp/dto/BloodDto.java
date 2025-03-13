@@ -18,5 +18,5 @@ public class BloodDto {
     private int bloodID;
     private String bloodGroup;
     private Double bloodQty;
-    private BloodBank bloodBank;
+    private int bloodBank; //store only the id not the entire entity
 }

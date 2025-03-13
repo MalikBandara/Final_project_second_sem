@@ -18,6 +18,7 @@ public class Blood {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bloodID;
     private String bloodGroup;
     private Double bloodQty;
