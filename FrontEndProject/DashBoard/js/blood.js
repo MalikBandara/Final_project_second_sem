@@ -1,10 +1,12 @@
+var BloodId;
+
 $("#btnSaveBlood").click(function (){
     console.log("blood")
 
     let data = {
         bloodGroup:$("#BloodGroup").val(),
         bloodQty:$("#quantity").val(),
-        bloodBank:$("#bloodBank").val()
+        bloodBankId:$("#bloodBank").val()
     }
 
     $.ajax({
@@ -16,6 +18,7 @@ $("#btnSaveBlood").click(function (){
         success:function (response){
             alert(response.message)
             console.log(response)
+            LoadAllBloodData();
         },
         error:function (error){
             alert(error.message)
@@ -42,12 +45,20 @@ function LoadAllBloodData(){
                 <td>${blood.bloodGroup}</td>
                 <td>${blood.bloodQty}</td>
                 <td>${blood.bloodBankId}</td>
+                <td>
+    <button type="button" class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="">
+        <i class="fas fa-trash-alt"></i> 
+    </button>
+</td>
                 </tr>>
+                
                 `;
 
                 BloodTableBody.append(data);
+
             });
 
+            LoadBloodTableData();
 
 
 
@@ -63,3 +74,37 @@ function LoadAllBloodData(){
 }
 LoadAllBloodData();
 
+
+$("#btnClearBlood").click(function (){
+    $("#BloodGroup").val("");
+        $("#quantity").val("");
+        $("#bloodBank").val("");
+        $("#BloodBankName").text("");
+})
+
+
+
+function LoadBloodTableData(){
+    $("#BloodTableBody tr").click(function (){
+
+
+        $("#BloodTableBody tr").removeClass("selected");
+
+        $(this).addClass("selected");
+
+        BloodId = $(this).find("td:eq(0)").text();
+        let BloodGroup = $(this).find("td:eq(1)").text();
+        let  Quantity = $(this).find("td:eq(2)").text();
+        var BloodBank = $(this).find("td:eq(3)").text();
+
+        $("#BloodGroup").val(BloodGroup);
+        $("#quantity").val(Quantity);
+        $("#bloodBank").val(BloodBank);
+        $("#BloodId").text(BloodId)
+
+
+    })
+
+
+
+}

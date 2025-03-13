@@ -34,12 +34,14 @@ public class BloodServiceImpl implements BloodService {
             throw  new RuntimeException("id already exist");
         }
 
+        System.out.println(bloodDto.getBloodBankId());
         //search the blood bank id from database
         BloodBank bloodBank = bloodBankRepo.findById(bloodDto.getBloodBankId()).orElseThrow(() -> new RuntimeException("BloodBank id not found"));
 
         //convert dto into entity
         Blood blood = modelMapper.map(bloodDto, Blood.class);
         blood.setBloodBank(bloodBank);
+
         bloodRepo.save(blood);
     }
 
