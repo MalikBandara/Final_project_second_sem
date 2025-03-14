@@ -34,4 +34,11 @@ public class BloodController {
     private ResponseUtil loadAllBlood(){
         return new ResponseUtil(201,"all blood loaded",bloodService.loadAllBlood());
     }
+
+
+    @PutMapping("update")
+    private ResponseUtil updateBlood(@RequestBody BloodDto bloodDto){
+        bloodService.updateBlood(bloodDto);
+        return new ResponseUtil(201, "üpdate blood" , null);
+    }
 }

@@ -10,4 +10,7 @@ public interface BloodService {
     void deleteBlood(Integer id);
 
     List<BloodDto> loadAllBlood();
+
+    void updateBlood(BloodDto bloodDto);
+
 }

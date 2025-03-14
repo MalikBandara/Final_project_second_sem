@@ -64,4 +64,13 @@ public class BloodServiceImpl implements BloodService {
         }).toList();
     }
 
+    @Override
+    public void updateBlood(BloodDto bloodDto) {
+        if (bloodRepo.existsById(bloodDto.getBloodID())){
+            bloodRepo.save(modelMapper.map(bloodDto , Blood.class));
+        }else {
+            throw new RuntimeException("blood id not exist");
+        }
+    }
+
 }
