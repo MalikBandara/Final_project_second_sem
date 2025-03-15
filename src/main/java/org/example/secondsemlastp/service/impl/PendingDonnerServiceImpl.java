@@ -10,8 +10,12 @@ import org.example.secondsemlastp.repo.BloodRepo;
 import org.example.secondsemlastp.repo.HospitalRepo;
 import org.example.secondsemlastp.repo.PendingDonnerRepo;
 import org.example.secondsemlastp.service.PendingDonnerService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PendingDonnerServiceImpl implements PendingDonnerService {
@@ -23,6 +27,8 @@ public class PendingDonnerServiceImpl implements PendingDonnerService {
     @Autowired
     private HospitalRepo hospitalRepo;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private PendingDonnerRepo pendingDonnerRepository;
@@ -51,5 +57,29 @@ public class PendingDonnerServiceImpl implements PendingDonnerService {
 
         // Save the PendingDonner entity
         pendingDonnerRepository.save(pendingDonner);
+    }
+
+    @Override
+    public void deletePendingDonner(Integer id) {
+        if (pendingDonnerRepository.existsById(id)){
+            pendingDonnerRepository.deleteById(id);
+        }else {
+            throw new RuntimeException("Pending Donner Id does not exist");
+
+        }
+    }
+
+    @Override
+    public void updatePDonner(PendingDonnerDto pendingDonnerDto) {
+        if (pendingDonnerRepository.existsById(pendingDonnerDto.getPendingDonnerId())){
+            pendingDonnerRepository.save(modelMapper.map(pendingDonnerDto , PendingDonner.class));
+        }else {
+            throw new RuntimeException("id does not exist ");
+        }
+    }
+
+    @Override
+    public List<PendingDonnerDto> getAll() {
+        return modelMapper.map(pendingDonnerRepository.findAll() , new TypeToken<List<PendingDonner>>(){}.getType());
     }
 }

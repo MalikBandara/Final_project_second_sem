@@ -7,6 +7,9 @@ import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/blood")
 @CrossOrigin(origins = "*")
@@ -40,5 +43,13 @@ public class BloodController {
     private ResponseUtil updateBlood(@RequestBody BloodDto bloodDto){
         bloodService.updateBlood(bloodDto);
         return new ResponseUtil(201, "üpdate blood" , null);
+    }
+
+
+    @GetMapping("loadBId")
+    private ResponseUtil getIdsAndName(){
+        List<Map<String, Object>> bloodDetails = bloodService.loadIdsAndNames();
+        return  new ResponseUtil(201, "blood id and name "  , bloodDetails);
+
     }
 }

@@ -35,4 +35,7 @@ public class PendingDonner {
     @JoinColumn(name = "bloodID")
     @JsonManagedReference // Serialize this relationship
     private Blood blood;
+
+    @Column(name = "status", nullable = false)
+    private String status = "Pending"; // Default value "ENUM"
 }

@@ -11,7 +11,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BloodServiceImpl implements BloodService {
@@ -71,6 +74,21 @@ public class BloodServiceImpl implements BloodService {
         }else {
             throw new RuntimeException("blood id not exist");
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> loadIdsAndNames() {
+        List<Object[]> allBloodBankIdsAndGroups = bloodRepo.findAllBloodBankIdsAndGroups();
+
+        List<Map<String,Object>> bloodDetails = new ArrayList<>();
+
+        for (Object[] row : allBloodBankIdsAndGroups){
+            Map<String ,Object> map = new HashMap<>();
+            map.put("bloodId" ,row[0]);
+            map.put("bloodName", row[1]);
+            bloodDetails.add(map);
+        }
+        return bloodDetails;
     }
 
 }
