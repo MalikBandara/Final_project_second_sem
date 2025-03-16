@@ -33,4 +33,8 @@ public class Blood {
     @OneToMany(mappedBy = "blood")
     @JsonIgnore // Avoid serializing the list of PendingDonner here
     private List<PendingDonner> pendingDonners;
+
+    @OneToMany(mappedBy = "blood" ,cascade = CascadeType.ALL ,orphanRemoval = true)
+    @JsonIgnore
+    private List<Donner> donnerId;
 }

@@ -1,5 +1,6 @@
 package org.example.secondsemlastp.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.example.secondsemlastp.dto.PendingDonnerDto;
 import org.example.secondsemlastp.entity.Blood;
 import org.example.secondsemlastp.entity.Hospital;
@@ -85,6 +86,7 @@ public class PendingDonnerServiceImpl implements PendingDonnerService {
     }
 
     @Override
+    @Transactional
     public void updateStatus(Integer id) {
         Optional<PendingDonner> byId = pendingDonnerRepository.findById(id);
 

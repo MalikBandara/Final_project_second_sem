@@ -2,6 +2,7 @@ package org.example.secondsemlastp.controller;
 
 
 import org.example.secondsemlastp.dto.PendingDonnerDto;
+import org.example.secondsemlastp.entity.Donner;
 import org.example.secondsemlastp.service.PendingDonnerService;
 import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +59,7 @@ public class PendingDonnerRegistration {
         pendingDonnerService.rejectDonner(id);
         return new ResponseUtil(201,"donner rejected successfully" , null);
     }
+
+
+
 }

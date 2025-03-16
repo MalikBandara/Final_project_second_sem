@@ -40,4 +40,8 @@ public class Hospital {
     @OneToMany(mappedBy = "hospitalId", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore // Prevent circular reference during serialization
     private List<PendingDonner> pendingDonnerIds;
+
+    @OneToMany(mappedBy = "hospitalId", cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
+    private List<Donner> donnerIds;
 }

@@ -1,5 +1,6 @@
 package org.example.secondsemlastp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,4 +39,8 @@ public class PendingDonner {
 
     @Column(name = "status", nullable = false)
     private String status = "Pending"; // Default value "ENUM"
+
+    @OneToOne(mappedBy = "pendingDonner")
+    @JsonBackReference
+    private Donner donner;
 }
