@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -42,6 +45,14 @@ public class HospitalController {
     @GetMapping("getAll")
     private ResponseUtil getAllHospitals(){
             return new ResponseUtil(200 , "Hospital Loaded" , hospitalService.loadHospitals());
+    }
+
+
+    @GetMapping("getIdH")
+    private ResponseUtil getHospitalIdAndName(){
+        List<Map<String, Object>> hospitalIdAndName = hospitalService.getHospitalIdAndName();
+
+        return new ResponseUtil(201, "hospital Id and Name load" , hospitalIdAndName);
     }
 
 

@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    loadBloodBankIds()
+    loadBloodBankIds();
+    loadHospitalIdsAndName();
 });
 
 $("#btnSavePDonner").click(function (){
@@ -61,4 +62,57 @@ function loadBloodBankIds() {
         }
     });
 }
+
+
+function loadHospitalIdsAndName() {
+    $.ajax({
+        url: "http://localhost:8081/api/v1/hospitals/getIdH",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+            if (!response.data || response.data.length === 0) {
+                alert("No Hospital found.");
+                return;
+            } else {
+                alert("Hospital loaded successfully.");
+            }
+
+            let dropdown = $("#HospitalId");
+            dropdown.empty();
+            dropdown.append(`<option value="">Select Hospital ID</option>`);
+
+            // Iterate over each object in the response.data array
+            response.data.forEach(hospital => {
+                let hospitalId = hospital.hospitalId;  // Match key from backend
+                let hospitalName = hospital.hospitalName;  // Match key from backend
+
+                // Create the dropdown option with ID and Name
+                let option = `<option value="${hospitalId}">${hospitalId}</option>`;
+                dropdown.append(option);
+            });
+
+            // Add event listener to update the name when a hospital ID is selected
+            dropdown.off("change").on("change", function() {
+                let selectedId = $(this).val();  // Get the selected hospital ID
+                if (selectedId) {
+                    // Find the selected hospital from the response data
+                    let selectedHospital = response.data.find(hospital => hospital.hospitalId == selectedId);
+                    if (selectedHospital) {
+                        let hospitalName = selectedHospital.hospitalName;  // Get the name for the selected ID
+                        // Set the Hospital name to the h4 tag
+                        $("#hospitalName").text(hospitalName);
+                    }
+                } else {
+                    // If no hospital is selected, clear the name
+                    $("#hospitalName").text("");
+                }
+            });
+        },
+        error: function (error) {
+            console.error("Error fetching hospitals:", error);
+            alert("Failed to load hospitals. Please try again.");
+        }
+    });
+}
+
 

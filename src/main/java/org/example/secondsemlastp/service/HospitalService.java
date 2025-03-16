@@ -5,6 +5,7 @@ import org.example.secondsemlastp.entity.Hospital;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface HospitalService {
@@ -16,4 +17,6 @@ public interface HospitalService {
      void updateHospitals(HospitalDto hospitalDto);
 
      void deleteHospital(Integer id);
+
+    List<Map<String, Object>> getHospitalIdAndName();
 }

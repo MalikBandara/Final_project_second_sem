@@ -9,7 +9,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -57,5 +60,21 @@ public class HospitalServiceImpl implements HospitalService {
         }else {
             throw new RuntimeException("can't find id ");
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getHospitalIdAndName() {
+        List<Object[]> hospitalIdAndName = hospitalRepo.findHospitalIdAndName();
+
+        List<Map<String,Object>> hospitalDetails = new ArrayList<>();
+
+        for (Object[] row : hospitalIdAndName){
+            Map<String,Object> map = new HashMap<>();
+            map.put("hospitalId",row[0]);
+            map.put("hospitalName", row[1]);
+            hospitalDetails.add(map);
+        }
+        return hospitalDetails;
+
     }
 }
