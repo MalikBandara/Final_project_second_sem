@@ -30,6 +30,7 @@ public class PendingDonnerDto {
     private String description;
 
     private int hospitalId;
+
     private int  blood;
 
 }

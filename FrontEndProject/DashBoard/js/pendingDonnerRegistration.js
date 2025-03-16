@@ -1,13 +1,35 @@
 $(document).ready(function () {
     loadBloodBankIds();
     loadHospitalIdsAndName();
+    LoadAllPendingDonner();
 });
 
 $("#btnSavePDonner").click(function (){
     let data = {
-        donnerName:$("#donnerName").val(),
+        donnerName:$("#donorName").val(),
+        blood:$("#bloodGroupId").val(),
+        hospitalId:$("#HospitalId").val(),
+        age:$("#age").val(),
+        email:$("#email").val(),
+        contact:$("#contactNumber").val(),
+        address:$("#address").val(),
+        description:$("#description").val()
 
     }
+
+    $.ajax({
+        url:"http://localhost:8081/api/v1/pDonner/save",
+        method:"POST",
+        contentType:"application/json",
+        data:JSON.stringify(data),
+        dataType:"json",
+        success:function (response){
+            alert(response.message)
+        },
+        error:function (response){
+            alert(response.message)
+        }
+    })
 })
 
 
@@ -116,3 +138,81 @@ function loadHospitalIdsAndName() {
 }
 
 
+
+
+function LoadAllPendingDonner() {
+    $.ajax({
+        url: "http://localhost:8081/api/v1/pDonner/getAll",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+            let pendingDonnerTable = $("#pendingDonnerTable");
+            pendingDonnerTable.empty(); // Clear existing data
+
+            response.data.forEach(pDonner => {
+                let hospitalName = pDonner.hospitalId ? pDonner.hospitalId.hospitalId : "N/A";
+                let bloodGroup = pDonner.blood ? pDonner.blood.bloodID : "N/A";
+
+                let data = `
+                <tr>
+                    <td>${pDonner.pendingDonnerId}</td>
+                    <td>${pDonner.donnerName}</td>
+                    <td>${bloodGroup}</td>  <!-- Extract blood group -->
+                    <td>${hospitalName}</td>  <!-- Extract hospital name -->
+                    <td>${pDonner.age}</td>
+                    <td>${pDonner.contact}</td>
+                    <td>${pDonner.email}</td>
+                    <td>${pDonner.address}</td>
+                    <td>${pDonner.description}</td>
+                    <td>${pDonner.status}</td>
+                    <td>
+                        <button type="button" class="btn bg-success bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="saveToDonner(${pDonner.pendingDonnerId})">Approve</button>
+                        <button type="button" class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="RejectPendingDonner(${pDonner.pendingDonnerId})">Reject</button>
+                    </td>
+                </tr>`;
+
+                pendingDonnerTable.append(data);
+            });
+        },
+        error: function (error) {
+            alert(error.message);
+        }
+    });
+}
+
+
+
+function saveToDonner(pendingDonnerId){
+
+    $.ajax({
+        url:`http://localhost:8081/api/v1/pDonner/updateStatus/${pendingDonnerId}`,
+        method:"PUT",
+        dataType:"json",
+        success:function (response){
+            alert(response.message)
+            LoadAllPendingDonner();
+        },
+        error:function (error){
+            alert(error.message)
+        }
+    })
+
+
+}
+
+
+function RejectPendingDonner(rejectDonner){
+
+    $.ajax({
+        url:`http://localhost:8081/api/v1/pDonner/Reject/${rejectDonner}`,
+        method:"DELETE",
+        dataType:"json",
+        success:function (response){
+            alert(response.message)
+            LoadAllPendingDonner();
+        },
+        error:function (error){
+            alert(error.message);
+        }
+    })
+}

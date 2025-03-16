@@ -12,4 +12,8 @@ public interface PendingDonnerService {
     void updatePDonner(PendingDonnerDto pendingDonnerDto);
 
     List<PendingDonnerDto> getAll();
+
+    void updateStatus(Integer id);
+
+    void rejectDonner(Integer id);
 }

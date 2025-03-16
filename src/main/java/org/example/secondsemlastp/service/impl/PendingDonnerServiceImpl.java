@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PendingDonnerServiceImpl implements PendingDonnerService {
@@ -81,5 +82,29 @@ public class PendingDonnerServiceImpl implements PendingDonnerService {
     @Override
     public List<PendingDonnerDto> getAll() {
         return modelMapper.map(pendingDonnerRepository.findAll() , new TypeToken<List<PendingDonner>>(){}.getType());
+    }
+
+    @Override
+    public void updateStatus(Integer id) {
+        Optional<PendingDonner> byId = pendingDonnerRepository.findById(id);
+
+            if (byId.isPresent()){
+                PendingDonner pendingDonner = byId.get();
+                pendingDonner.setStatus("Approved");
+                pendingDonnerRepository.save(pendingDonner);
+            }else {
+                throw  new RuntimeException("donner id not found");
+            }
+
+    }
+
+    @Override
+    public void rejectDonner(Integer id) {
+
+        if (pendingDonnerRepository.existsById(id)){
+            pendingDonnerRepository.deleteById(id);
+        }else {
+            throw new RuntimeException("pending donner is not exist ");
+        }
     }
 }

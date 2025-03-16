@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/pDonner")
+@CrossOrigin(origins = "*")
 public class PendingDonnerRegistration {
 
 
@@ -42,5 +43,19 @@ public class PendingDonnerRegistration {
     private ResponseUtil updatePDonner(@RequestBody PendingDonnerDto pendingDonnerDto){
         pendingDonnerService.updatePDonner(pendingDonnerDto);
         return new ResponseUtil(201, "pending donner updted" , null);
+    }
+
+
+    @PutMapping("updateStatus/{id}")
+    private ResponseUtil updateStatus(@PathVariable Integer id){
+        pendingDonnerService.updateStatus(id);
+        return new ResponseUtil(201, "status update in pending donner " , null);
+    }
+
+
+    @DeleteMapping("Reject/{id}")
+    private ResponseUtil rejectDonner(@PathVariable Integer id ){
+        pendingDonnerService.rejectDonner(id);
+        return new ResponseUtil(201,"donner rejected successfully" , null);
     }
 }
