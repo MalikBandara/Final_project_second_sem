@@ -11,13 +11,14 @@ import org.example.secondsemlastp.repo.BloodRepo;
 import org.example.secondsemlastp.repo.HospitalRepo;
 import org.example.secondsemlastp.repo.PendingDonnerRepo;
 import org.example.secondsemlastp.service.PendingDonnerService;
+import org.example.secondsemlastp.util.ResponseUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PendingDonnerServiceImpl implements PendingDonnerService {
@@ -109,4 +110,65 @@ public class PendingDonnerServiceImpl implements PendingDonnerService {
             throw new RuntimeException("pending donner is not exist ");
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getPendingDonorById(Integer pendingDonnerId) {
+        Optional<PendingDonner> donor = pendingDonnerRepository.findById(pendingDonnerId);
+
+        // Check if the donor is present
+        if (donor.isPresent()) {
+            PendingDonner pendingDonner = donor.get();
+
+            // Create a list of maps to hold the donor's data
+            List<Map<String, Object>> donorDataList = new ArrayList<>();
+
+            // Create a map to hold the donor's data
+            Map<String, Object> donorDataMap = new HashMap<>();
+
+            // Populate the map with the donor's details
+            donorDataMap.put("address", pendingDonner.getAddress());
+            donorDataMap.put("age", pendingDonner.getAge());
+            donorDataMap.put("bloodGroup", pendingDonner.getBlood().getBloodGroup());
+            donorDataMap.put("bloodID", pendingDonner.getBlood().getBloodID());
+            donorDataMap.put("bloodQty", pendingDonner.getBlood().getBloodQty());
+            donorDataMap.put("contact", pendingDonner.getContact());
+            donorDataMap.put("description", pendingDonner.getDescription());
+            donorDataMap.put("donnerName", pendingDonner.getDonnerName());
+            donorDataMap.put("email", pendingDonner.getEmail());
+
+            // Hospital details, assuming hospital is embedded in PendingDonner entity
+            donorDataMap.put("hospitalId", pendingDonner.getHospitalId().getHospitalId());
+            donorDataMap.put("hospitalName", pendingDonner.getHospitalId().getHospitalName());
+            donorDataMap.put("location", pendingDonner.getHospitalId().getLocation());
+            donorDataMap.put("hospitalContact", pendingDonner.getHospitalId().getContact());
+
+            // Status and pendingDonnerId
+            donorDataMap.put("status", pendingDonner.getStatus());
+            donorDataMap.put("pendingDonnerId", pendingDonner.getPendingDonnerId());
+
+            // Add the map to the list
+            donorDataList.add(donorDataMap);
+
+            // Return the list containing the map of the donor's details
+            return donorDataList;
+        } else {
+            // Return an empty list if no donor is found
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public void updateStatusTOReject(Integer id) {
+        Optional<PendingDonner> byId = pendingDonnerRepository.findById(id);
+
+        if (byId.isPresent()){
+            PendingDonner pendingDonner = byId.get();
+            pendingDonner.setStatus("Rejected");
+            pendingDonnerRepository.save(pendingDonner);
+        }else {
+            throw  new RuntimeException("donner id not found");
+        }
+    }
+
+
 }

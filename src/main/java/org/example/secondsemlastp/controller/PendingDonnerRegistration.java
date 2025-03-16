@@ -8,6 +8,9 @@ import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/pDonner")
 @CrossOrigin(origins = "*")
@@ -53,11 +56,23 @@ public class PendingDonnerRegistration {
         return new ResponseUtil(201, "status update in pending donner " , null);
     }
 
+    @PutMapping("updateStatusToReject/{id}")
+    private ResponseUtil updateStatusToReject(@PathVariable Integer id){
+        pendingDonnerService.updateStatusTOReject(id);
+        return new ResponseUtil(201, "status update to rejected  donner " , null);
+    }
 
     @DeleteMapping("Reject/{id}")
     private ResponseUtil rejectDonner(@PathVariable Integer id ){
-        pendingDonnerService.rejectDonner(id);
+//        pendingDonnerService.rejectDonner(id);
         return new ResponseUtil(201,"donner rejected successfully" , null);
+    }
+
+    @GetMapping("/{pendingDonnerId}")
+    public ResponseUtil getPendingDonorById(@PathVariable Integer pendingDonnerId) {
+        List<Map<String, Object>> pendingDonorById = pendingDonnerService.getPendingDonorById(pendingDonnerId);
+        return new ResponseUtil(201, "pending donner get by id " , pendingDonorById);
+
     }
 
 

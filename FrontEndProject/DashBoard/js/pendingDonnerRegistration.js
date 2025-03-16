@@ -165,10 +165,28 @@ function LoadAllPendingDonner() {
                     <td>${pDonner.address}</td>
                     <td>${pDonner.description}</td>
                     <td>${pDonner.status}</td>
-                    <td>
-                        <button type="button" class="btn bg-success bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="saveToDonner(${pDonner.pendingDonnerId})">Approve</button>
-                        <button type="button" class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="RejectPendingDonner(${pDonner.pendingDonnerId})">Reject</button>
-                    </td>
+                    
+    <!-- Show the buttons only if the status is not "rejected" -->
+   <td>
+    <!-- Show the "Approve" button only if the status is neither "Rejected" nor "Approved" -->
+    <button type="button" 
+        class="btn bg-success bg-gradient mt-1 me-2 text-light bg-opacity-70" 
+        onclick="saveToDonner('${pDonner.pendingDonnerId}', '${pDonner.donnerName}', '${bloodGroup}', '${hospitalName}', '${pDonner.age}', '${pDonner.contact}', '${pDonner.email}', '${pDonner.address}', '${pDonner.description}', '${pDonner.status}')"
+        style="display: ${pDonner.status === 'Rejected' || pDonner.status === 'Approved' ? 'none' : 'inline-block'};">
+        Approve
+    </button>
+    
+    <!-- Show the "Reject" button only if the status is neither "Rejected" nor "Approved" -->
+    <button type="button" 
+        class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" 
+        onclick="RejectPendingDonner(${pDonner.pendingDonnerId})"
+        style="display: ${pDonner.status === 'Rejected' || pDonner.status === 'Approved' ? 'none' : 'inline-block'};">
+        Reject
+    </button>
+</td>
+
+
+
                 </tr>`;
 
                 pendingDonnerTable.append(data);
@@ -182,10 +200,73 @@ function LoadAllPendingDonner() {
 
 
 
-function saveToDonner(pendingDonnerId){
+//Transaction part
+
+
+function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, contact, email, address, description, status) {
+    $.ajax({
+        url: `http://localhost:8081/api/v1/pDonner/updateStatus/${pendingDonnerId}`,
+        method: "PUT",
+        dataType: "json",
+        success: function (response) {
+            alert(response.message);
+            LoadAllPendingDonner();
+
+            let data = {
+                donnerName:donnerName,
+                age:age,
+                contact:contact,
+                email:email,
+                description:description,
+                address:address,
+                hospitalId:hospitalId,
+                bloodId:bloodId,
+                pendingDonnerId:pendingDonnerId
+            }
+
+
+            $.ajax({
+                url:"http://localhost:8081/api/v1/donner/save",
+                method:"POST",
+                contentType:"application/json",
+                data:JSON.stringify(data),
+                dataType:"json",
+                success:function (response){
+                    alert(response.message)
+                },
+                error:function (error){
+                    alert(error.message)
+                }
+            })
+
+
+        },
+        error: function (error) {
+            alert(error.message);
+        }
+    });
+}
+
+
+
+function RejectPendingDonner(rejectDonner){
+
+    // $.ajax({
+    //     url:`http://localhost:8081/api/v1/pDonner/Reject/${rejectDonner}`,
+    //     method:"DELETE",
+    //     dataType:"json",
+    //     success:function (response){
+    //         alert(response.message)
+    //         LoadAllPendingDonner();
+    //     },
+    //     error:function (error){
+    //         alert(error.message);
+    //     }
+    // })
 
     $.ajax({
-        url:`http://localhost:8081/api/v1/pDonner/updateStatus/${pendingDonnerId}`,
+
+        url:`http://localhost:8081/api/v1/pDonner/updateStatusToReject/${rejectDonner}`,
         method:"PUT",
         dataType:"json",
         success:function (response){
@@ -195,24 +276,6 @@ function saveToDonner(pendingDonnerId){
         error:function (error){
             alert(error.message)
         }
-    })
 
-
-}
-
-
-function RejectPendingDonner(rejectDonner){
-
-    $.ajax({
-        url:`http://localhost:8081/api/v1/pDonner/Reject/${rejectDonner}`,
-        method:"DELETE",
-        dataType:"json",
-        success:function (response){
-            alert(response.message)
-            LoadAllPendingDonner();
-        },
-        error:function (error){
-            alert(error.message);
-        }
     })
 }
