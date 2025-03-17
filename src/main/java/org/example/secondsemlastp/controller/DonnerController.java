@@ -22,4 +22,8 @@ public class DonnerController {
         donnerService.saveDonner(donnerDto);
         return new ResponseUtil(200, "donner Approved and create" , null );
     }
+    @GetMapping("getAll")
+    private ResponseUtil loadAll(){
+        return new ResponseUtil(201,"donner loaded " , donnerService.getAllDonner());
+    }
 }

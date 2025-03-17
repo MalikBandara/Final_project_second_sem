@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    loadBloodBankIds();
+    loadBloodIds();
     loadHospitalIdsAndName();
     LoadAllPendingDonner();
 });
@@ -34,7 +34,7 @@ $("#btnSavePDonner").click(function (){
 
 
 
-function loadBloodBankIds() {
+function loadBloodIds() {
     $.ajax({
         url: "http://localhost:8081/api/v1/blood/loadBId",
         method: "GET",
@@ -44,7 +44,7 @@ function loadBloodBankIds() {
                 alert("No blood banks found.");
                 return;
             } else {
-                alert("Blood banks loaded successfully.");
+                alert("Blood type loaded successfully.");
             }
 
             let dropdown = $("#bloodGroupId");
@@ -166,7 +166,11 @@ function LoadAllPendingDonner() {
                     <td>${pDonner.description}</td>
                     <td>${pDonner.status}</td>
                     
-    <!-- Show the buttons only if the status is not "rejected" -->
+                    
+               
+                    
+    <!-- Show the buttons only if the status is not "rejected" action eka reject hari approve hari venakota button hide venv -->
+         
    <td>
     <!-- Show the "Approve" button only if the status is neither "Rejected" nor "Approved" -->
     <button type="button" 

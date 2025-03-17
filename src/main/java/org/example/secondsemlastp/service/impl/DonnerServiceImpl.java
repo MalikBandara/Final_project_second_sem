@@ -7,8 +7,12 @@ import org.example.secondsemlastp.repo.DonnerRepo;
 import org.example.secondsemlastp.repo.PendingDonnerRepo;
 import org.example.secondsemlastp.service.DonnerService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class DonnerServiceImpl implements DonnerService {
@@ -39,6 +43,11 @@ public class DonnerServiceImpl implements DonnerService {
         }
 
         donnerRepo.save(donner);
+    }
+
+    @Override
+    public List<DonnerDto> getAllDonner() {
+        return modelMapper.map(donnerRepo.findAll() , new TypeToken<List<Donner>>(){}.getType());
     }
 
 }
