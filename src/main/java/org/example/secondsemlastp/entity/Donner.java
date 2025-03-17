@@ -31,7 +31,7 @@ public class Donner {
     @JoinColumn(name = "blood_id")
     private Blood blood;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pendingDonnerId")
     @JsonManagedReference
     private PendingDonner pendingDonner;

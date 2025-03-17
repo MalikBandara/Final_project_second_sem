@@ -26,4 +26,18 @@ public class DonnerController {
     private ResponseUtil loadAll(){
         return new ResponseUtil(201,"donner loaded " , donnerService.getAllDonner());
     }
+
+
+    @PutMapping("update")
+    private ResponseUtil updateDonner(@RequestBody DonnerDto donnerDto){
+        donnerService.updateDonner(donnerDto);
+        return new ResponseUtil(201, "donner updated" , null);
+    }
+
+
+    @DeleteMapping("delete/{id}")
+    private ResponseUtil deleteDonner(@PathVariable Integer id ){
+        donnerService.deleteDonner(id);
+        return new ResponseUtil(201,"donner delete" , null);
+    }
 }

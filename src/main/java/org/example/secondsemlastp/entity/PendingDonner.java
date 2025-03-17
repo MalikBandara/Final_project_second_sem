@@ -40,7 +40,7 @@ public class PendingDonner {
     @Column(name = "status", nullable = false)
     private String status = "Pending"; // Default value "ENUM"
 
-    @OneToOne(mappedBy = "pendingDonner")
+    @OneToOne(mappedBy = "pendingDonner" , cascade = CascadeType.ALL)
     @JsonBackReference
     private Donner donner;
 }

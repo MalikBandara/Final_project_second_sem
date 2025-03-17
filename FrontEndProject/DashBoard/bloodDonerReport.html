@@ -41,32 +41,123 @@
   <div class="container mt-5">
     <h1 class="text-center mb-5">Blood Donor Management</h1>
 
-    <!-- Form for Adding/Updating Donors -->
+    <div class="d-flex justify-content-center align-items-center">
+      <form id="donorForm" class="mb-5 p-4 border rounded shadow bg-light">
+        <div class="col-md-12 text-center mb-4">
+          <label for="donnerId" class="form-label fw-bold">Donor ID</label>
+          <h3 id="donnerId" class="border p-2 rounded"></h3>
+        </div>
 
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="donnerName" class="form-label">Donor Name</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-user"></i></span>
+              <input type="text" id="donnerName" class="form-control form-control-lg" placeholder="Enter donor name" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="age" class="form-label">Age</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+              <input type="number" id="age" class="form-control form-control-lg" placeholder="Enter age" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="contact" class="form-label">Contact Number</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+              <input type="text" id="contact" class="form-control form-control-lg" placeholder="Enter contact number" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              <input type="email" id="email" class="form-control form-control-lg" placeholder="Enter email">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="description" class="form-label">Description</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+              <input type="text" id="description" class="form-control form-control-lg" placeholder="Enter description">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="address" class="form-label">Address</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+              <input type="text" id="address" class="form-control form-control-lg" placeholder="Enter address">
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="form-group">
+            <label for="bloodGroupId">Select Blood Group Id:</label>
+            <select id="bloodGroupId" name="bloodGroup" required>
+              <option value="">Select Blood Group</option>
+
+
+            </select>
+          </div>
+          <div class="form-group">
+            <label >Select Hospital  Id:</label>
+            <select id="hospitalId" name="hospitalId" required>
+              <option value="">Select Blood Group</option>
+
+
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="pendingDonnerId" class="form-label">Pending Donor ID</label>
+            <input type="text" id="pendingDonnerId" class="form-control form-control-sm" placeholder="" readonly>
+          </div>
+
+        </div>
+
+        <div class="text-center mt-4 ms-3">
+          <button type="button" id="btnUpdateDonner" class="btn btn-warning btn-md me-3" >
+            <i class="fas fa-edit"></i> Update Donor
+          </button>
+          <button type="button" id="btnDeleteDonner" class="btn btn-danger btn-md me-3" >
+            <i class="fas fa-trash-alt"></i> Delete Donor
+          </button>
+          <button type="button" id="btnClearDonner" class="btn btn-secondary btn-md " >
+             Clear
+          </button>
+        </div>
+      </form>
+    </div>
 
     <!-- Table to Display Donors -->
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Donor Name</th>
-          <th>Contact Number</th>
-          <th>Age</th>
-          <th>Address</th>
-          <th>Email</th>
-          <th>Description</th>
-          <th>Blood id</th>
-          <th>Hospital id</th>
-          <th>Pending Donner id</th>
-        </tr>
+    <table class="table table-striped table-bordered mt-4">
+      <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Donor Name</th>
+        <th>Contact Number</th>
+        <th>Age</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Description</th>
+        <th>Blood ID</th>
+        <th>Hospital ID</th>
+        <th>Pending Donor ID</th>
+      </tr>
       </thead>
       <tbody id="DonnerTableBody">
-        <!-- Example Rows -->
-
-        <!-- Add more rows as needed -->
+      <!-- Example Rows -->
       </tbody>
     </table>
   </div>
+
+
 
   <!-- Bootstrap JS and dependencies (optional for functionality) -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
