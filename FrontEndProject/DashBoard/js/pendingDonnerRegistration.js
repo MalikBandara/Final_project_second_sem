@@ -26,11 +26,28 @@ $("#btnSavePDonner").click(function (){
         success:function (response){
             Swal.fire({
                 icon: "success",
-                title: "Success!",
-                text: "Donor registered successfully!",
+                title: "Donation Request Submitted!",
+                html: `
+        <div style="font-size: 18px; font-weight: 500;">
+            Thank you, <span style="color: #d9232d;">${response.donorName || "Donor"}</span>! ❤️ <br>
+            Your request to donate blood has been successfully submitted. <br>
+            Our team will review it and connect you with a recipient soon.
+        </div>
+    `,
+                timer: 6000, // Auto-close after 6 seconds
+                timerProgressBar: true,
                 showConfirmButton: true,
-                confirmButtonText: "OK"
+                confirmButtonText: "OK",
+                confirmButtonColor: "#d9232d", // Red color to match blood donation theme
+                showCloseButton: true,
+                allowOutsideClick: false,
+                backdrop: `
+        rgba(0, 0, 0, 0.4)
+        url("https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif") 
+        center top / 150px no-repeat
+    `
             });
+
         },
         error:function (response){
             alert(response.message)

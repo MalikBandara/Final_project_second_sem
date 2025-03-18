@@ -22,7 +22,9 @@ public class PendingSeeker {
     private String contact;
     private String address;
     private String description;
-    private String status = "Pending";
+
+    @Column(name = "status", nullable = false)
+    private String status = "Pending"; // Default value "ENUM"
 
     @ManyToOne()
     @JoinColumn(name = "hospital_id")

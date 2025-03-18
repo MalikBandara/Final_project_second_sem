@@ -21,5 +21,11 @@ public class PendingSeekerController {
         pendingSeekerService.savePendingSeeker(pendingSeekerDto);
         return new ResponseUtil(200,"Patient Register Successfully" , null);
     }
+
+
+    @GetMapping("getAll")
+    private ResponseUtil LoadAllSeekers(){
+        return new ResponseUtil(201,"seekers loaded !" , pendingSeekerService.loadSeekers());
+    }
 }
 

@@ -8,9 +8,14 @@ import org.example.secondsemlastp.repo.BloodRepo;
 import org.example.secondsemlastp.repo.HospitalRepo;
 import org.example.secondsemlastp.repo.PendingSeekerRepo;
 import org.example.secondsemlastp.service.PendingSeekerService;
+import org.example.secondsemlastp.util.ResponseUtil;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PendingSeekerServiceImpl implements PendingSeekerService {
@@ -46,12 +51,17 @@ public class PendingSeekerServiceImpl implements PendingSeekerService {
             pendingSeeker.setContact(pendingSeekerDto.getContact());
             pendingSeeker.setEmail(pendingSeekerDto.getEmail());
             pendingSeeker.setAddress(pendingSeekerDto.getAddress());
-            pendingSeeker.setStatus(pendingSeekerDto.getStatus());
             pendingSeeker.setHospitalId(hospitalId);
             pendingSeeker.setBloodId(bloodId);
 
 
             pendingSeekerRepo.save(pendingSeeker);
         }
+    }
+
+    @Override
+    public List<PendingSeekerDto> loadSeekers() {
+
+        return modelMapper.map(pendingSeekerRepo.findAll() , new TypeToken<List<PendingSeeker>>(){}.getType());
     }
 }
