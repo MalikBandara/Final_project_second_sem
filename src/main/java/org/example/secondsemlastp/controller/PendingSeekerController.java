@@ -1,6 +1,7 @@
 package org.example.secondsemlastp.controller;
 
 
+import org.apache.coyote.Response;
 import org.example.secondsemlastp.dto.PendingSeekerDto;
 import org.example.secondsemlastp.service.PendingSeekerService;
 import org.example.secondsemlastp.util.ResponseUtil;
@@ -26,6 +27,19 @@ public class PendingSeekerController {
     @GetMapping("getAll")
     private ResponseUtil LoadAllSeekers(){
         return new ResponseUtil(201,"seekers loaded !" , pendingSeekerService.loadSeekers());
+    }
+
+    @PutMapping("updateStatus/{id}")
+    private ResponseUtil updateSeekersStatus(@PathVariable Integer id){
+        pendingSeekerService.updateStatus(id);
+        return new ResponseUtil(201,"Seeker status update successfully ! " , null);
+    }
+
+
+    @PutMapping("updateReject/{id}")
+    private ResponseUtil updateToReject(@PathVariable Integer id ){
+        pendingSeekerService.updateReject(id);
+        return  new ResponseUtil(201, "Status update into Reject in seeker " , null);
     }
 }
 

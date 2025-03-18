@@ -126,13 +126,7 @@ function LoadHospitalIdsToSeeker(){
                 alert("No Hospital found.");
                 return;
             } else {
-                Swal.fire({
-                    icon: "success",
-                    title: "Loaded!",
-                    text: response.message,
-                    showConfirmButton: true, // Enables the "OK" button
-                    confirmButtonText: "OK", // Customize button text (optional)
-                });
+                console.log(response)
             }
 
             let dropdown = $("#HospitalId");
@@ -188,7 +182,7 @@ function LoadAllSeekers(){
 
             response.data.forEach(seeker =>{
 
-               let seekerId =  seeker.hospital? seeker.hospital.hospitalId :"N/A";
+               let hospitalId =  seeker.hospital? seeker.hospital.hospitalId :"N/A";
                let bloodId =  seeker.bloodId? seeker.bloodId.bloodID :"N/A";
 
                 let data = `
@@ -200,9 +194,38 @@ function LoadAllSeekers(){
                 <td>${seeker.email}</td>
                 <td>${seeker.address}</td>
                 <td>${seeker.description}</td>
-                <td>${seekerId}</td>
+                <td>${hospitalId}</td>
                 <td>${bloodId}</td>
                 <td>${seeker.status}</td>
+                
+                <td>
+    <!-- Show the "Approve" button only if the status is neither "Rejected" nor "Approved" -->
+    <button type="button" 
+        class="btn bg-success bg-gradient mt-1 me-2 text-light bg-opacity-70" 
+        onclick="UpdateStatus(
+            '${seeker.pendingSeeker}', 
+            '${seeker.pendingSeekerName}', 
+            ${seeker.age}, 
+            '${seeker.contact}', 
+            '${seeker.email}', 
+            '${seeker.address}', 
+            '${seeker.description}', 
+            '${hospitalId}', 
+            '${bloodId}', )"
+        style="display: ${seeker.status === 'Rejected' || seeker.status === 'Approved' ? 'none' : 'inline-block'};">
+        
+        Approve
+    </button>
+    
+    <!-- Show the "Reject" button only if the status is neither "Rejected" nor "Approved" -->
+    <button type="button" 
+        class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" 
+        onclick="UpdateStatusToRemove(${seeker.pendingSeeker})"
+        style="display: ${seeker.status === 'Rejected' || seeker.status === 'Approved' ? 'none' : 'inline-block'};">
+        
+        Reject
+    </button>
+</td>
                 
                 </tr>`;
 
@@ -216,4 +239,71 @@ function LoadAllSeekers(){
     })
 
 
+}
+
+
+function UpdateStatus(seekerId, seekerName, age, contact, email, address, description, hospitalId, bloodId){
+    $.ajax({
+        url:`http://localhost:8081/api/v1/PSeeker/updateStatus/${seekerId}`,
+        method:"PUT",
+        contentType:"application/json",
+        dataType:"json",
+        success:function (response){
+            alert(response.message)
+            LoadAllSeekers();
+
+            let data = {
+                seekerName:seekerName,
+                email:email,
+                contact:contact,
+                address:address,
+                description:description,
+                age:age,
+                hospitalId:hospitalId,
+                bloodId:bloodId,
+                pendingSeekerId:seekerId
+
+            }
+
+
+            $.ajax({
+                url:"http://localhost:8081/api/v1/Seeker/save",
+                method:"POST",
+                contentType:"application/json",
+                data:JSON.stringify(data),
+                dataType:"json",
+                success:function (response){
+                    alert(response.message)
+                },
+                error:function (error){
+                    alert(error.message)
+                }
+
+            })
+
+
+        }
+        ,error:function (error){
+            alert(error.message)
+        }
+
+    })
+}
+
+function UpdateStatusToRemove(id){
+
+    $.ajax({
+        url:`http://localhost:8081/api/v1/PSeeker/updateReject/${id}`,
+        method:"PUT",
+        contentType:"application/json",
+        dataType:"json",
+        success:function (response){
+            alert(response.message)
+            LoadAllSeekers();
+        },
+        error:function (error){
+            alert(error.message)
+        }
+
+    })
 }

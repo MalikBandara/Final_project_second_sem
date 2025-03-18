@@ -8,4 +8,9 @@ public interface PendingSeekerService {
     void savePendingSeeker(PendingSeekerDto pendingSeekerDto);
 
     List<PendingSeekerDto> loadSeekers();
+
+    void updateStatus(Integer id);
+
+    void updateReject(Integer id);
+
 }

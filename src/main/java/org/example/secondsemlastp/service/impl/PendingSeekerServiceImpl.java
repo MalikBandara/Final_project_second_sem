@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PendingSeekerServiceImpl implements PendingSeekerService {
@@ -64,5 +65,37 @@ public class PendingSeekerServiceImpl implements PendingSeekerService {
     public List<PendingSeekerDto> loadSeekers() {
 
         return modelMapper.map(pendingSeekerRepo.findAll() , new TypeToken<List<PendingSeeker>>(){}.getType());
+    }
+
+    @Override
+    public void updateStatus(Integer id) {
+        Optional<PendingSeeker> byId = pendingSeekerRepo.findById(id);
+
+        if (byId.isPresent()){
+            PendingSeeker pendingSeeker = byId.get();
+            pendingSeeker.setStatus("Approved");
+            pendingSeekerRepo.save(pendingSeeker);
+        }else {
+            throw new RuntimeException("Seekers id not found");
+        }
+
+
+
+    }
+
+    @Override
+    public void updateReject(Integer id) {
+
+        Optional<PendingSeeker> byId = pendingSeekerRepo.findById(id);
+
+        if (byId.isPresent()){
+            PendingSeeker pendingSeeker = byId.get();
+            pendingSeeker.setStatus("Rejected");
+            pendingSeekerRepo.save(pendingSeeker);
+
+
+        }else{
+            throw new RuntimeException("Seekers Status Updated into Reject ! ");
+        }
     }
 }
