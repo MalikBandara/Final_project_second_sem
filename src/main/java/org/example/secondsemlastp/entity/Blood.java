@@ -37,4 +37,8 @@ public class Blood {
     @OneToMany(mappedBy = "blood" ,cascade = CascadeType.ALL ,orphanRemoval = true)
     @JsonIgnore
     private List<Donner> donnerId;
+
+    @OneToMany(mappedBy = "bloodId" , cascade = CascadeType.ALL ,orphanRemoval = true)
+    @JsonIgnore
+    private List<PendingSeeker> pendingSeekerId;
 }

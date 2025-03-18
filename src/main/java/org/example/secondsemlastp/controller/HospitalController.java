@@ -52,7 +52,7 @@ public class HospitalController {
     private ResponseUtil getHospitalIdAndName(){
         List<Map<String, Object>> hospitalIdAndName = hospitalService.getHospitalIdAndName();
 
-        return new ResponseUtil(201, "hospital Id and Name load" , hospitalIdAndName);
+        return new ResponseUtil(201, "Hospital , Blood details loaded into dropdown ! " , hospitalIdAndName);
     }
 
 

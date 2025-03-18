@@ -24,7 +24,13 @@ $("#btnSavePDonner").click(function (){
         data:JSON.stringify(data),
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Donor registered successfully!",
+                showConfirmButton: true,
+                confirmButtonText: "OK"
+            });
         },
         error:function (response){
             alert(response.message)
@@ -41,10 +47,18 @@ function loadBloodIds() {
         dataType: "json",
         success: function (response) {
             if (!response.data || response.data.length === 0) {
-                alert("No blood banks found.");
+                Swal.fire({
+                    icon: "error",  // Shows an error icon
+                    title: "Error!",
+                    text: "Blood id not loaded ",
+                    showConfirmButton: true,  // Displays the "OK" button
+                    confirmButtonText: "OK"  // Customize button text
+                });
+
                 return;
             } else {
-                alert("Blood type loaded successfully.");
+                console.log(response)
+
             }
 
             let dropdown = $("#bloodGroupId");
@@ -96,7 +110,13 @@ function loadHospitalIdsAndName() {
                 alert("No Hospital found.");
                 return;
             } else {
-                alert("Hospital loaded successfully.");
+                Swal.fire({
+                    icon: "success",
+                    title: "Loaded!",
+                    text: response.message,
+                    showConfirmButton: true, // Enables the "OK" button
+                    confirmButtonText: "OK", // Customize button text (optional)
+                });
             }
 
             let dropdown = $("#HospitalId");
@@ -237,6 +257,7 @@ function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, con
                 dataType:"json",
                 success:function (response){
                     alert(response.message)
+
                 },
                 error:function (error){
                     alert(error.message)
@@ -283,3 +304,17 @@ function RejectPendingDonner(rejectDonner){
 
     })
 }
+
+
+$("#resetButton").click(function (){
+    $("#donorName").val("")
+        $("#bloodGroupId").val("")
+        $("#HospitalId").val("")
+        $("#age").val("")
+        $("#email").val("")
+        $("#contactNumber").val("")
+        $("#address").val("")
+        $("#description").val("")
+        $("#BloodGroupName").text("")
+        $("#hospitalName").text("")
+})
