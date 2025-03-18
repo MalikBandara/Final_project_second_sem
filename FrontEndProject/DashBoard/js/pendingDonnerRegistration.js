@@ -1,7 +1,7 @@
 $(document).ready(function () {
     loadBloodIds();
     loadHospitalIdsAndName();
-    LoadAllPendingDonner();
+
 });
 
 $("#btnSavePDonner").click(function (){
@@ -176,7 +176,7 @@ function loadHospitalIdsAndName() {
 
 
 
-
+LoadAllPendingDonner();
 function LoadAllPendingDonner() {
     $.ajax({
         url: "http://localhost:8081/api/v1/pDonner/getAll",

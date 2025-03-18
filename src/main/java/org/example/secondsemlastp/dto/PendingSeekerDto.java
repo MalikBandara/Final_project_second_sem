@@ -19,6 +19,7 @@ public class PendingSeekerDto {
     private String contact;
     private String address;
     private String description;
+    private int age ;
     private int hospitalId;
     private int bloodId;
 

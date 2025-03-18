@@ -1,6 +1,7 @@
 $(document).ready(function () {
     LoadHospitalIdsToSeeker();
     LoadBloodIdsToSeekers();
+    LoadAllSeekers();
 });
 
 $("#btnSavePatient").click(function (){
@@ -12,7 +13,8 @@ $("#btnSavePatient").click(function (){
         address:$("#address").val(),
         description:$("#description").val(),
         hospitalId:$("#HospitalId").val(),
-        bloodId:$("#bloodGroup").val()
+        bloodId:$("#bloodGroup").val(),
+        age:$("#age").val()
     }
 
     $.ajax({
@@ -169,4 +171,49 @@ function LoadHospitalIdsToSeeker(){
             alert("Failed to load hospitals. Please try again.");
         }
     });
+}
+
+
+
+function LoadAllSeekers(){
+
+    $.ajax({
+        url:"http://localhost:8081/api/v1/PSeeker/getAll",
+        method:"GET",
+        dataType:"json",
+        success:function (response){
+
+            let pendingSeekerTable = $("#pendingSeekerTable");
+            pendingSeekerTable.empty();
+
+            response.data.forEach(seeker =>{
+
+               let seekerId =  seeker.hospital? seeker.hospital.hospitalId :"N/A";
+               let bloodId =  seeker.bloodId? seeker.bloodId.bloodID :"N/A";
+
+                let data = `
+                <tr>
+                <td>${seeker.pendingSeeker}</td>
+                <td>${seeker.pendingSeekerName}</td>
+                <td>${seeker.age}</td>
+                <td>${seeker.contact}</td>
+                <td>${seeker.email}</td>
+                <td>${seeker.address}</td>
+                <td>${seeker.description}</td>
+                <td>${seekerId}</td>
+                <td>${bloodId}</td>
+                <td>${seeker.status}</td>
+                
+                </tr>`;
+
+                pendingSeekerTable.append(data);
+            })
+
+        },
+        error:function (error){
+            alert(error.message)
+        }
+    })
+
+
 }

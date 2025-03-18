@@ -51,7 +51,8 @@ public class PendingSeekerServiceImpl implements PendingSeekerService {
             pendingSeeker.setContact(pendingSeekerDto.getContact());
             pendingSeeker.setEmail(pendingSeekerDto.getEmail());
             pendingSeeker.setAddress(pendingSeekerDto.getAddress());
-            pendingSeeker.setHospitalId(hospitalId);
+            pendingSeeker.setHospital(hospitalId);
+            pendingSeeker.setAge(pendingSeekerDto.getAge());
             pendingSeeker.setBloodId(bloodId);
 
 

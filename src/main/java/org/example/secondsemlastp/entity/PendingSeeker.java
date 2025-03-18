@@ -23,12 +23,14 @@ public class PendingSeeker {
     private String address;
     private String description;
 
+    private int age;
+
     @Column(name = "status", nullable = false)
     private String status = "Pending"; // Default value "ENUM"
 
     @ManyToOne()
     @JoinColumn(name = "hospital_id")
-    private Hospital hospitalId;
+    private Hospital hospital;
 
     @ManyToOne
     @JoinColumn(name = "blood_id")

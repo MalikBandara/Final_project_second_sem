@@ -45,7 +45,7 @@ public class Hospital {
     @JsonIgnore
     private List<Donner> donnerIds;
 
-    @OneToMany(mappedBy = "hospitalId" ,cascade = CascadeType.ALL,orphanRemoval = true )
+    @OneToMany(mappedBy = "hospital" ,cascade = CascadeType.ALL,orphanRemoval = true )
     @JsonIgnore
     private List<PendingSeeker> pendingSeekerId;
 }
