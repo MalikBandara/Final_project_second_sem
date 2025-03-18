@@ -20,4 +20,13 @@ public class SeekerController {
         seekerService.saveSeeker(seekerDto);
         return new ResponseUtil(200 ,"Seeker create successfully" , null);
     }
+
+
+
+    @GetMapping("getAll")
+    private ResponseUtil loadAllSeekers(){
+        return new ResponseUtil(201, "loaded Seekers" , seekerService.loadAllSeekers());
+
+    }
+
 }

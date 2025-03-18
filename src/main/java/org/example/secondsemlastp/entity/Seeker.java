@@ -17,7 +17,7 @@ public class Seeker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seekerId;
-    private String SeekerName;
+    private String seekerName;
     private String email;
     private String contact;
     private String address;

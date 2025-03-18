@@ -6,9 +6,13 @@ import org.example.secondsemlastp.entity.Seeker;
 import org.example.secondsemlastp.repo.PendingSeekerRepo;
 import org.example.secondsemlastp.repo.SeekerRepo;
 import org.example.secondsemlastp.service.SeekerService;
+import org.example.secondsemlastp.util.ResponseUtil;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -39,5 +43,11 @@ public class SeekerServiceImpl implements SeekerService {
 
 
         }
+    }
+
+    @Override
+    public List<SeekerDto> loadAllSeekers() {
+
+        return modelMapper.map(seekerRepo.findAll() , new TypeToken<List<Seeker>>(){}.getType());
     }
 }
