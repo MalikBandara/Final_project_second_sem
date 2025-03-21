@@ -3,6 +3,8 @@ package org.example.secondsemlastp.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,10 @@ public class Blood {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bloodID;
+    @Pattern(regexp = "^(A|B|AB|O)[+-]$", message = "Invalid blood group")
     private String bloodGroup;
+
+
     private Double bloodQty;
 
     @ManyToOne(fetch = FetchType.EAGER )

@@ -39,7 +39,7 @@ public class BloodServiceImpl implements BloodService {
 
         System.out.println(bloodDto.getBloodBankId());
         //search the blood bank id from database
-        BloodBank bloodBank = bloodBankRepo.findById(bloodDto.getBloodBankId()).orElseThrow(() -> new RuntimeException("BloodBank id not found"));
+        BloodBank bloodBank = bloodBankRepo.findById(bloodDto.getBloodBankId()).orElseThrow(() -> new RuntimeException("Check the Fields Again Fields Not Correct  "));
 
         //convert dto into entity
         Blood blood = modelMapper.map(bloodDto, Blood.class);

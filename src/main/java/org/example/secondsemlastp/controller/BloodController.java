@@ -22,14 +22,14 @@ public class BloodController {
     @PostMapping("save")
     private ResponseUtil saveBlood(@RequestBody BloodDto bloodDto){
         bloodService.saveBlood(bloodDto);
-        return new ResponseUtil(200, "save blood", null);
+        return new ResponseUtil(200, "Save Blood Successfully !", null);
     }
 
 
     @DeleteMapping("delete/{id}")
     private ResponseUtil deleteBlood(@PathVariable Integer id){
         bloodService.deleteBlood(id);
-        return  new ResponseUtil(201,"delete Blood", null);
+        return  new ResponseUtil(201,"Delete Blood Successfully !", null);
     }
 
 

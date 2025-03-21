@@ -180,7 +180,11 @@ function deleteBloodBank(bloodBankId){
         url:`http://localhost:8081/api/v1/bloodBank/delete/${bloodBankId}`,
         method:"DELETE",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
                 $("#BloodBankId").text("")
                 $("#name").val("");
                 $("#location").val("");

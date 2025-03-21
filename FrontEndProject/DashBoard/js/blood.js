@@ -6,11 +6,27 @@ var bloodId
 $("#btnSaveBlood").click(function (){
     console.log("blood")
 
-    let data = {
-        bloodGroup:$("#BloodGroup").val(),
-        bloodQty:$("#quantity").val(),
-        bloodBankId:$("#bloodBank").val()
+    let bloodGroup = $("#BloodGroup").val();
+    let bloodQty = $("#quantity").val();
+    let bloodBankId = $("#bloodBank").val();
+
+    // Validation for Blood Quantity
+    if (!bloodQty || isNaN(bloodQty) || parseFloat(bloodQty) <= 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Input",
+            text: "Please enter a valid positive blood quantity.",
+        });
+
+        return;
     }
+
+    let data = {
+        bloodGroup: bloodGroup,
+        bloodQty: parseFloat(bloodQty), // Ensure it's a number
+        bloodBankId: bloodBankId
+    };
+
 
     $.ajax({
         url:"http://localhost:8081/api/v1/blood/save",
@@ -19,7 +35,11 @@ $("#btnSaveBlood").click(function (){
         data:JSON.stringify(data),
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
             console.log(response)
             LoadAllBloodData();
             $("#BloodId").text("")
@@ -28,8 +48,24 @@ $("#btnSaveBlood").click(function (){
             $("#bloodBank").val("");
             $("#BloodBankName").text("");
         },
-        error:function (error){
-            alert(error.message)
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
+
+            // Check if the error response contains validation errors
+            if (error.responseJSON && error.responseJSON.data) {
+                // Extract the first error message from the data object
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
+                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+            }
+
+            // Display the error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
         }
     })
 
@@ -149,17 +185,26 @@ $("#updateToModel").click(function (){
 $("#btnUpdateBlood").click(function (){
 
 
+    let bloodGroup = $("#modalBloodGroup").val();
+    let bloodQty = $("#modalQuantity").val();
+    let bloodBankId = $("#bloodBank1").text();
 
-
-
-
+    // Validation for Blood Quantity
+    if (!bloodQty || isNaN(bloodQty) || parseFloat(bloodQty) <= 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Input",
+            text: "Please enter a valid positive blood quantity before updating.",
+        });
+        return;
+    }
 
     let data = {
-        bloodID:bloodId,
-        bloodGroup:$("#modalBloodGroup").val(),
-        bloodQty:$("#modalQuantity").val(),
-        bloodBankId:$("#bloodBank1").text()
-    }
+        bloodID: bloodId,
+        bloodGroup: bloodGroup,
+        bloodQty: parseFloat(bloodQty), // Ensure numeric value
+        bloodBankId: bloodBankId
+    };
 
 
     $.ajax({
@@ -169,7 +214,11 @@ $("#btnUpdateBlood").click(function (){
         data:JSON.stringify(data),
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
             LoadAllBloodData();
             $("#BloodId1").text("")
             $("#BloodGroup").val("");
@@ -177,8 +226,24 @@ $("#btnUpdateBlood").click(function (){
             $("#bloodBank").val("");
             $("#BloodBankName").text("");
         },
-        error:function (error){
-            alert(error.message)
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
+
+            // Check if the error response contains validation errors
+            if (error.responseJSON && error.responseJSON.data) {
+                // Extract the first error message from the data object
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
+                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+            }
+
+            // Display the error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
         }
     })
 
@@ -192,7 +257,11 @@ function DeleteBlood(bloodId){
         method:"DELETE",
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
             LoadAllBloodData();
             $("#BloodId").text("")
             $("#BloodGroup").val("");
@@ -203,7 +272,11 @@ function DeleteBlood(bloodId){
 
         },
         error:function (error){
-            alert(error.message)
+            Swal.fire({
+                icon: 'error',
+                title: error.message,
+                confirmButtonText: 'OK'
+            });
         }
     });
 
