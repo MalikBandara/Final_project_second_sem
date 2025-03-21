@@ -4,6 +4,8 @@ $(document).ready(function () {
 
 });
 
+
+// save pending donner
 $("#btnSavePDonner").click(function (){
     let data = {
         donnerName:$("#donorName").val(),
@@ -56,7 +58,7 @@ $("#btnSavePDonner").click(function (){
 })
 
 
-
+// load blood ids in pending donner
 function loadBloodIds() {
     $.ajax({
         url: "http://localhost:8081/api/v1/blood/loadBId",
@@ -117,6 +119,8 @@ function loadBloodIds() {
 }
 
 
+
+// load hospital and name in pending donner
 function loadHospitalIdsAndName() {
     $.ajax({
         url: "http://localhost:8081/api/v1/hospitals/getIdH",
@@ -130,7 +134,7 @@ function loadHospitalIdsAndName() {
                 Swal.fire({
                     icon: "success",
                     title: "Loaded!",
-                    text: response.message,
+
                     showConfirmButton: true, // Enables the "OK" button
                     confirmButtonText: "OK", // Customize button text (optional)
                 });
@@ -177,6 +181,9 @@ function loadHospitalIdsAndName() {
 
 
 LoadAllPendingDonner();
+
+
+// load pending donner into table
 function LoadAllPendingDonner() {
     $.ajax({
         url: "http://localhost:8081/api/v1/pDonner/getAll",
@@ -243,14 +250,14 @@ function LoadAllPendingDonner() {
 
 //Transaction part
 
-
+// when update status donner save
 function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, contact, email, address, description, status) {
     $.ajax({
         url: `http://localhost:8081/api/v1/pDonner/updateStatus/${pendingDonnerId}`,
         method: "PUT",
         dataType: "json",
         success: function (response) {
-            alert(response.message);
+            console.log("donner status updated")
             LoadAllPendingDonner();
 
             let data = {
@@ -273,7 +280,14 @@ function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, con
                 data:JSON.stringify(data),
                 dataType:"json",
                 success:function (response){
-                    alert(response.message)
+                    Swal.fire({
+                        icon: "success",
+                        title: "Pending Donor Saved into Donner !",
+                        text: "The pending donor information has been successfully updated and Convert into Donner in the Blood Management System.",
+                        showConfirmButton: true,
+                        confirmButtonText: "OK",
+                    });
+
 
                 },
                 error:function (error){
@@ -290,7 +304,7 @@ function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, con
 }
 
 
-
+// reject
 function RejectPendingDonner(rejectDonner){
 
     // $.ajax({
@@ -312,7 +326,14 @@ function RejectPendingDonner(rejectDonner){
         method:"PUT",
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: "warning",
+                title: "Donor Rejected",
+                text: "The donor has been rejected from the system.",
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+            });
+
             LoadAllPendingDonner();
         },
         error:function (error){
@@ -323,6 +344,8 @@ function RejectPendingDonner(rejectDonner){
 }
 
 
+
+// clear
 $("#resetButton").click(function (){
     $("#donorName").val("")
         $("#bloodGroupId").val("")

@@ -31,7 +31,7 @@ public class PendingDonnerRegistration {
 
     @GetMapping("getAll")
     private ResponseUtil loadAllPendingDonner(){
-        return new ResponseUtil(201, "load pending donners" , pendingDonnerService.getAll());
+        return new ResponseUtil(201, "load pending donner" , pendingDonnerService.getAll());
 
     }
 
@@ -46,7 +46,7 @@ public class PendingDonnerRegistration {
     @PutMapping("update")
     private ResponseUtil updatePDonner(@RequestBody PendingDonnerDto pendingDonnerDto){
         pendingDonnerService.updatePDonner(pendingDonnerDto);
-        return new ResponseUtil(201, "pending donner updted" , null);
+        return new ResponseUtil(201, "pending donner updated" , null);
     }
 
 
@@ -62,6 +62,8 @@ public class PendingDonnerRegistration {
         return new ResponseUtil(201, "status update to rejected  donner " , null);
     }
 
+
+    // not use create for delete but not work
     @DeleteMapping("Reject/{id}")
     private ResponseUtil rejectDonner(@PathVariable Integer id ){
 //        pendingDonnerService.rejectDonner(id);

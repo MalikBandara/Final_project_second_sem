@@ -28,19 +28,19 @@ public class PendingDonner {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "hospitalId")
-    @JsonManagedReference // Serialize this relationship
+    @JoinColumn(name = "hospitalId" ,nullable = false)
+    @JsonManagedReference
     private Hospital hospitalId;
 
     @ManyToOne
-    @JoinColumn(name = "bloodID")
-    @JsonManagedReference // Serialize this relationship
+    @JoinColumn(name = "bloodID" ,nullable = false)
+    @JsonManagedReference
     private Blood blood;
 
     @Column(name = "status", nullable = false)
-    private String status = "Pending"; // Default value "ENUM"
+    private String status = "Pending";
 
-    @OneToOne(mappedBy = "pendingDonner" , cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "pendingDonner" , cascade = CascadeType.ALL ,orphanRemoval = true )
     @JsonBackReference
     private Donner donner;
 }

@@ -1,5 +1,8 @@
-var BloodId;
+var bloodId
 
+
+
+//blood save method
 $("#btnSaveBlood").click(function (){
     console.log("blood")
 
@@ -33,6 +36,8 @@ $("#btnSaveBlood").click(function (){
 })
 
 
+
+//blood load method
 function LoadAllBloodData(){
 
     $.ajax({
@@ -81,8 +86,9 @@ LoadAllBloodData();
 
 
 
-
+// clear field method
 $("#btnClearBlood").click(function () {
+    $("#BloodId").text("")
         $("#BloodGroup").val("");
         $("#quantity").val("");
         $("#bloodBank").val("");
@@ -91,40 +97,68 @@ $("#btnClearBlood").click(function () {
 
 
 
-
+//when click the blood table data load into input
 
 function LoadBloodTableData(){
-    $("#BloodTableBody tr").click(function (){
-
-
+    $("#BloodTableBody tr").click(function () {
+        // Remove previous selection and highlight the clicked row
         $("#BloodTableBody tr").removeClass("selected");
-
         $(this).addClass("selected");
 
-        BloodId = $(this).find("td:eq(0)").text();
+        // Get the data from the clicked row
+        let BloodId = $(this).find("td:eq(0)").text();
         let BloodGroup = $(this).find("td:eq(1)").text();
-        let  Quantity = $(this).find("td:eq(2)").text();
-        var BloodBank = $(this).find("td:eq(3)").text();
+        let Quantity = $(this).find("td:eq(2)").text();
+        let BloodBank = $(this).find("td:eq(3)").text();  // Blood Bank ID
 
+        // Set the form fields
         $("#BloodGroup").val(BloodGroup);
         $("#quantity").val(Quantity);
-        $("#bloodBank").val(BloodBank);
-        $("#BloodId").text(BloodId)
 
+        // Display the Blood Bank ID in a non-editable span and set it in a hidden input
+        $("#bloodBank").val(BloodBank);  // You may want to change this to a hidden input
+        $("#bloodBankId").val(BloodBank);  // Hidden input to store the Blood Bank ID for the update
 
-    })
+        // Display Blood Bank ID as a non-editable field (as label or span)
+        $("#BloodBankIdDisplay").text(BloodBank);
 
-
-
+        // Display Blood ID in a non-editable field
+        $("#BloodId").text(BloodId);
+    });
 }
 
+// update blood can't update blood bank id
+
+// set the input value to model value
+$("#updateToModel").click(function (){
+     bloodId = $("#BloodId").text();
+    $("#ModelBloodId1").val(bloodId)
+
+    var value = $("#BloodGroup").val();
+    $("#modalBloodGroup").val(value);
+
+    var quantity = $("#quantity").val();
+    $("#modalQuantity").val(quantity);
+
+    var bloodBank = $("#bloodBank").val();
+    $("#bloodBank1").text(bloodBank)
+})
+
+
+//update
 $("#btnUpdateBlood").click(function (){
 
+
+
+
+
+
+
     let data = {
-        bloodID:BloodId,
-        bloodGroup:$("#BloodGroup").val(),
-        bloodQty:$("#quantity").val(),
-        bloodBankId:$("#bloodBank").val()
+        bloodID:bloodId,
+        bloodGroup:$("#modalBloodGroup").val(),
+        bloodQty:$("#modalQuantity").val(),
+        bloodBankId:$("#bloodBank1").text()
     }
 
 
@@ -137,7 +171,7 @@ $("#btnUpdateBlood").click(function (){
         success:function (response){
             alert(response.message)
             LoadAllBloodData();
-            $("#BloodId").text("")
+            $("#BloodId1").text("")
             $("#BloodGroup").val("");
             $("#quantity").val("");
             $("#bloodBank").val("");

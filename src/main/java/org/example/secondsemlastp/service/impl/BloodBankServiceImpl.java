@@ -1,7 +1,10 @@
 package org.example.secondsemlastp.service.impl;
 
 import org.example.secondsemlastp.dto.BloodBankDto;
+import org.example.secondsemlastp.dto.BloodDto;
+import org.example.secondsemlastp.entity.Blood;
 import org.example.secondsemlastp.entity.BloodBank;
+import org.example.secondsemlastp.entity.Hospital;
 import org.example.secondsemlastp.repo.BloodBankRepo;
 import org.example.secondsemlastp.service.BloodBankService;
 import org.modelmapper.ModelMapper;
@@ -9,10 +12,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -51,11 +51,30 @@ public class BloodBankServiceImpl implements BloodBankService {
 
     @Override
     public void updateBloodBank(BloodBankDto bloodBankDto) {
+        // Check if the blood bank with the given ID exists
         if (!bloodBankRepo.existsById(bloodBankDto.getBloodBankID())) {
             throw new RuntimeException("Blood bank with ID " + bloodBankDto.getBloodBankID() + " not found!");
         }
-        bloodBankRepo.save(modelMapper.map(bloodBankDto, BloodBank.class));
+
+        // Retrieve the existing BloodBank entity from the repository
+        BloodBank existingBloodBank = bloodBankRepo.findById(bloodBankDto.getBloodBankID())
+                .orElseThrow(() -> new RuntimeException("Blood bank with ID " + bloodBankDto.getBloodBankID() + " not found!"));
+
+        // Update the BloodBank entity fields
+        existingBloodBank.setBloodBankName(bloodBankDto.getName());
+        existingBloodBank.setLocation(bloodBankDto.getLocation());
+        existingBloodBank.setContact(bloodBankDto.getContact());
+
+        // Update the associated hospitals (ManyToMany relationship)
+
+
+
+
+        // Save the updated BloodBank entity
+        bloodBankRepo.save(existingBloodBank);
     }
+
+
 
     @Override
     public List<Map<String,Object>> findIds() {

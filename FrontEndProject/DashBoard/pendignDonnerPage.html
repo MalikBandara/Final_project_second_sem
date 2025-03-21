@@ -15,32 +15,50 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
 
-
-    <!-- <link rel="stylesheet" href="../assets/css/style.css"> -->
     <link href="img/favicon.ico" rel="icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* Increase column widths */
+        /* Make the table full screen */
+        html, body {
+            height: 100%; /* Ensure full viewport height */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            height: 100%; /* Ensure container takes up full height */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .table-responsive {
+            width: 137%; /* Ensure the table takes up full width */
+            height: calc(100vh - 120px); /* Adjust height to fit in the viewport, considering the navbar height */
+            overflow: auto; /* Allow scrolling if needed */
+        }
+
+        .table {
+            width:100%; /* Ensure full width */
+            table-layout: auto; /* Allow auto-adjustment */
+        }
+
         .table th, .table td {
             white-space: nowrap; /* Prevent text wrapping */
             padding: 12px; /* Add spacing */
             text-align: center;
         }
 
-        .table {
-            width: 100%; /* Ensure full width */
-            table-layout: auto; /* Allow auto-adjustment */
-        }
-
         /* Specific width for each column */
-        .col-donor-id { width: 100px; }
-        .col-name { width: 200px; }
-        .col-blood-id { width: 120px; }
-        .col-hospital-id { width: 120px; }
-        .col-age { width: 80px; }
-        .col-contact { width: 140px; }
+        .col-donor-id { width: 200px; }
+        .col-name { width: 300px; }
+        .col-blood-id { width: 220px; }
+        .col-hospital-id { width: 220px; }
+        .col-age { width: 180px; }
+        .col-contact { width: 240px; }
         .col-email { width: 200px; }
         .col-address { width: 350px; }
         .col-description { width: 350px; }
@@ -49,16 +67,16 @@
     </style>
 </head>
 
-
 <body>
 
 <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid ">
+    <div class="container-fluid">
         <a href="./index.html" class="navbar-brand mx-4 mb-1">
-            <h2 class="text-danger fw-bold  "><i class="fa fa-tint m-2" aria-hidden="true"></i>BloodLink</h2>
+            <h2 class="text-danger fw-bold"><i class="fa fa-tint m-2" aria-hidden="true"></i>BloodLink</h2>
         </a>
     </div>
 </nav>
+
 <div class="container mt-5">
     <h2 class="text-center">Pending Donors</h2>
     <div class="table-responsive">
@@ -84,8 +102,10 @@
         </table>
     </div>
 </div>
-</body>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="lib/jquery-3.7.1.min.js"></script>
 <script src="./js/pendingDonnerRegistration.js"></script>
+
+</body>
 </html>

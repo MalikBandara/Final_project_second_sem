@@ -13,6 +13,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/seekerRegister.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/bootstrap-4.1.3.min.css" />
   <style>
     body {
       font-size: 15px;
@@ -28,7 +31,7 @@
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a href="./index.html" class="navbar-brand mx-4 mb-1">
-        <h3 class="text-danger fw-bold"><i class="fa fa-tint m-2" aria-hidden="true"></i>BloodLink</h3>
+        <h2 class="text-danger fw-bold"><i class="fa fa-tint m-2" aria-hidden="true"></i>BloodLink</h2>
       </a>
     </div>
   </nav>
@@ -37,41 +40,99 @@
     <h1 class="text-center mb-5">Blood Seeker Management</h1>
 
     <!-- Form for Adding/Updating Seekers -->
-    <form class="mb-4">
-      <div class="row">
-        <div class="col-md-3">
-          <label for="seekerName" class="form-label">Seeker Name</label>
-          <input type="text" class="form-control" id="seekerName" placeholder="Enter seeker name" required>
+    <div class="d-flex justify-content-center align-items-center">
+      <form id="" class="mb-5 p-4 border rounded shadow bg-light">
+        <div class="col-md-12 text-center mb-4">
+          <label for="seekerId" class="form-label fw-bold">Seeker ID</label>
+          <h3 id="seekerId" class="border p-2 rounded"></h3>
         </div>
-        <div class="col-md-2">
-          <label for="contactNumber" class="form-label">Contact Number</label>
-          <input type="text" class="form-control" id="contactNumber" placeholder="Enter contact number" required>
+
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="seekerName" class="form-label">Seeker Name</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-user"></i></span>
+              <input type="text" id="seekerName" class="form-control form-control-lg" placeholder="Enter donor name" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="age" class="form-label">Age</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+              <input type="number" id="age" class="form-control form-control-lg" placeholder="Enter age" required>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="contact" class="form-label">Contact Number</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+              <input type="text" id="contact" class="form-control form-control-lg" placeholder="Enter contact number" required>
+            </div>
+          </div>
         </div>
-        <div class="col-md-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              <input type="email" id="email" class="form-control form-control-lg" placeholder="Enter email">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="description" class="form-label">Description</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+              <input type="text" id="description" class="form-control form-control-lg" placeholder="Enter description">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="address" class="form-label">Address</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+              <input type="text" id="address" class="form-control form-control-lg" placeholder="Enter address">
+            </div>
+          </div>
         </div>
-        <div class="col-md-2">
-          <label for="city" class="form-label">City</label>
-          <input type="text" class="form-control" id="city" placeholder="Enter city" required>
+
+        <div class="row mb-4">
+          <div class="form-group">
+            <label for="bloodGroupId">Select Blood Group Id:</label>
+            <select id="bloodGroupId" name="bloodGroup" required>
+              <option value="">Select Blood Group</option>
+
+
+            </select>
+          </div>
+          <div class="form-group">
+            <label >Select Hospital  Id:</label>
+            <select id="hospitalId" name="hospitalId" required>
+              <option value="">Select Blood Group</option>
+
+
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="pendingSeekerId" class="form-label">Pending Donor ID</label>
+            <input type="text" id="pendingSeekerId" class="form-control form-control-sm" placeholder="" readonly>
+          </div>
+
         </div>
-        <div class="col-md-2">
-          <label for="bloodGroup" class="form-label">Blood Group Required</label>
-          <select class="form-select" id="bloodGroup" required>
-            <option value="">Select</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-          </select>
+
+        <div class="text-center mt-4 ms-3">
+          <button type="button" id="btnUpdateSeeker" class="btn btn-warning btn-md me-3" >
+            <i class="fas fa-edit"></i> Update Seeker
+          </button>
+          <button type="button" id="btnDeleteSeeker" class="btn btn-danger btn-md me-3" >
+            <i class="fas fa-trash-alt"></i> Delete Seeker
+          </button>
+          <button type="button" id="btnClearDonner" class="btn btn-secondary btn-md " >
+            Clear
+          </button>
         </div>
-      </div>
-<!--      <button type="submit" class="btn bg-danger bg-gradient mt-3 text-light bg-opacity-70">Save Seeker</button>-->
-    </form>
+      </form>
+    </div>
 
     <!-- Table to Display Seekers -->
     <table class="table table-striped">
@@ -98,9 +159,12 @@
   </div>
 
   <!-- Bootstrap JS and dependencies (optional for functionality) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script src="lib/jquery-3.7.1.min.js"></script>
   <script src="js/seeker.js"></script>
 </body>
 </html>
+
+

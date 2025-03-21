@@ -4,6 +4,7 @@ package org.example.secondsemlastp.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,23 +24,30 @@ public class BloodBank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int bloodBankID;
+    @Pattern(regexp = "^[a-zA-Z\\s]{5,20}$", message = "Invalid Blood bank Name !")
+    @Column(nullable = false, length = 100)
     private String bloodBankName;
+    @Pattern(regexp = "^[a-zA-Z\\s]{5,20}$", message = "Invalid Location type !")
+    @Column(nullable = false, length = 100)
     private String location;
+    @Column(length = 15)
+    @Pattern(regexp = "^[+]?[0-9]{10,15}$", message = "Invalid Contact Number !")
     private String contact;
 
 
-    //Associate table creation
+
     @ManyToMany
     @JoinTable(
-            name = "hospital_blood_bank", // table name
-            joinColumns = @JoinColumn(name = "blood_bank_id"), //blood bank table column name
-            inverseJoinColumns = @JoinColumn(name = "hosipital_id") // hospital table column name
+            name = "hospital_blood_bank",
+            joinColumns = @JoinColumn(name = "blood_bank_id"),
+            inverseJoinColumns = @JoinColumn(name = "hosipital_id")
     )
-    private Set<Hospital> hospitals = new HashSet<>(); //use for map by in hospital side.
+    private Set<Hospital> hospitals = new HashSet<>();
 
-    @OneToMany(mappedBy = "bloodBank")
-    @JsonManagedReference // use for bidirectional relationship
+    @OneToMany(mappedBy = "bloodBank",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Blood> bloodPacket;
 
 }

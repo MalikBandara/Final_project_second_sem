@@ -1,6 +1,7 @@
 package org.example.secondsemlastp.controller;
 
 
+import jakarta.validation.Valid;
 import org.example.secondsemlastp.dto.BloodBankDto;
 import org.example.secondsemlastp.service.BloodBankService;
 import org.example.secondsemlastp.util.ResponseUtil;
@@ -18,7 +19,7 @@ public class BloodBankController {
     @Autowired
     private BloodBankService bloodBankService;
     @PostMapping("save")
-    private ResponseUtil saveBloodBank(@RequestBody BloodBankDto bloodBankDto){
+    private ResponseUtil saveBloodBank(@Valid @RequestBody BloodBankDto bloodBankDto){
         System.out.println(bloodBankDto.getName());
         bloodBankService.saveBloodBank(bloodBankDto);
         return new ResponseUtil(200 , "blood bank created " , null);
@@ -26,7 +27,7 @@ public class BloodBankController {
 
 
     @PutMapping("update")
-    private ResponseUtil updateBloodBank(@RequestBody BloodBankDto bloodBankDto){
+    private ResponseUtil updateBloodBank(@Valid @RequestBody BloodBankDto bloodBankDto){
         bloodBankService.updateBloodBank(bloodBankDto);
         return new ResponseUtil(201 , "blood bank updated ", null);
     }

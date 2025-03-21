@@ -8,5 +8,10 @@ public interface SeekerService {
     void saveSeeker(SeekerDto seekerDto);
 
     List<SeekerDto> loadAllSeekers();
+
+    void updateSeeker(SeekerDto seekerDto);
+
+    void deleteSeeker(Integer id);
+
 }
 

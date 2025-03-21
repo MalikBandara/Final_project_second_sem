@@ -19,11 +19,32 @@ $("#btnSaveHospitals").click(function (){
         data:JSON.stringify(hospitalData),
         dataType:"json",
         success:function(resp){
-            alert(resp.message);
+            Swal.fire({
+                    icon: 'success',
+                    title: resp.message,
+                    confirmButtonText: 'OK'
+                });
+
             loadAllHospitals();
         },
-        error:function(error){
-            alert("Error in saving hospital");
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
+
+            // Check if the error response contains validation errors
+            if (error.responseJSON && error.responseJSON.data) {
+                // Extract the first error message from the data object
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
+                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+            }
+
+            // Display the error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
         }
 
         
@@ -55,11 +76,31 @@ $("#btnUpdateHospitals").click(function (){
         data:JSON.stringify(data),
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
             loadAllHospitals();
         },
-        error:function (error){
-            alert(error.message)
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
+
+            // Check if the error response contains validation errors
+            if (error.responseJSON && error.responseJSON.data) {
+                // Extract the first error message from the data object
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
+                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+            }
+
+            // Display the error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
         }
     })
 
@@ -110,13 +151,19 @@ function loadAllHospitals(){
 }
 
 
+
+// delete hospital
 function deleteHospital(hospitalId){
 
     $.ajax({
         url:`http://localhost:8081/api/v1/hospitals/delete/${hospitalId}`,
         method:"DELETE",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
             loadAllHospitals();
             $("#HospitalId").text("");
             $("#name").val("");
@@ -157,6 +204,9 @@ function LoadDataIntoInput(){
     })
 
 }
+
+
+// clear
 $("#btnClear").click(function (){
 
         $("#HospitalId").text("");

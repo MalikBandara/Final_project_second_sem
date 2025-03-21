@@ -27,7 +27,7 @@ public class PendingSeeker {
     private int age;
 
     @Column(name = "status", nullable = false)
-    private String status = "Pending"; // Default value "ENUM"
+    private String status = "Pending";
 
     @ManyToOne()
     @JoinColumn(name = "hospital_id")

@@ -69,12 +69,29 @@ public class BloodServiceImpl implements BloodService {
 
     @Override
     public void updateBlood(BloodDto bloodDto) {
-        if (bloodRepo.existsById(bloodDto.getBloodID())){
-            bloodRepo.save(modelMapper.map(bloodDto , Blood.class));
-        }else {
-            throw new RuntimeException("blood id not exist");
+        if (bloodRepo.existsById(bloodDto.getBloodID())) {
+            // Fetch the existing Blood entity
+            Blood existingBlood = bloodRepo.findById(bloodDto.getBloodID())
+                    .orElseThrow(() -> new RuntimeException("Blood entity not found"));
+
+            // Map the updated fields from BloodDto to the existing Blood entity
+            modelMapper.map(bloodDto, existingBlood);
+
+            // Fetch the BloodBank entity using the provided bloodBankId from the BloodDto
+            BloodBank bloodBank = bloodBankRepo.findById(bloodDto.getBloodBankId())
+                    .orElseThrow(() -> new RuntimeException("BloodBank entity not found"));
+
+            // Set the BloodBank entity in the existing Blood entity
+            existingBlood.setBloodBank(bloodBank);
+
+            // Save the updated Blood entity
+            bloodRepo.save(existingBlood);
+        } else {
+            throw new RuntimeException("Blood ID does not exist");
         }
     }
+
+
 
     @Override
     public List<Map<String, Object>> loadIdsAndNames() {

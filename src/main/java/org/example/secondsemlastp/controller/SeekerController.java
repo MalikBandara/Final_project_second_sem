@@ -29,4 +29,17 @@ public class SeekerController {
 
     }
 
+
+    @PutMapping("update")
+    private ResponseUtil updateSeeker(@RequestBody SeekerDto seekerDto){
+        seekerService.updateSeeker(seekerDto);
+        return new ResponseUtil(201, "update seeker" , null);
+    }
+
+    @DeleteMapping("delete/{id}")
+    private ResponseUtil deleteSeeker(@PathVariable Integer id){
+        seekerService.deleteSeeker(id);
+        return new ResponseUtil(201, "Seeker Delete Successfully" , null);
+    }
+
 }

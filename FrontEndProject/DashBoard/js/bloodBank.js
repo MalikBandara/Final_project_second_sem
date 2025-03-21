@@ -2,8 +2,11 @@ var bloodBankId ;
 
 $(document).ready(function () {
     loadBloodBankIds()
+
 });
 
+
+//save blood bank
 $("#btnSaveBloodBank").click(function (){
     console.log("test");
 
@@ -20,17 +23,39 @@ $("#btnSaveBloodBank").click(function (){
         data:JSON.stringify(BdData),
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
             loadBloodBank();
         },
-        error:function (error){
-            alert(error.message)
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
+
+            // Check if the error response contains validation errors
+            if (error.responseJSON && error.responseJSON.data) {
+                // Extract the first error message from the data object
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
+                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+            }
+
+            // Display the error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
         }
     })
 
 
 })
 
+
+//click blood bank table body and load input
 function  loadDataIntoInputFields(){
 
     $("#bloodBankTableBody tr").click(function (){
@@ -52,7 +77,7 @@ function  loadDataIntoInputFields(){
 
 
 
-
+//get all blood bank
 function loadBloodBank (){
 
     $.ajax({
@@ -97,6 +122,8 @@ function loadBloodBank (){
 loadBloodBank();
 
 
+
+// update blood bank
 $("#btnUpdateBloodBank").click(function (){
 
     console.log(bloodBankId);
@@ -115,16 +142,38 @@ $("#btnUpdateBloodBank").click(function (){
         data:JSON.stringify(BdData),
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: 'success',
+                title: response.message,
+                confirmButtonText: 'OK'
+            });
             loadBloodBank();
         },
-        error:function (error){
-            alert(error.message)
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
+
+            // Check if the error response contains validation errors
+            if (error.responseJSON && error.responseJSON.data) {
+                // Extract the first error message from the data object
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
+                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+            }
+
+            // Display the error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
         }
     })
 })
 
 
+
+// delete blood bank
 function deleteBloodBank(bloodBankId){
 
     $.ajax({
@@ -146,6 +195,8 @@ function deleteBloodBank(bloodBankId){
     });
 }
 
+
+//clear blood bank
 $("#btnClearBloodBank").click(function (){
     $("#BloodBankId").text("")
     $("#name").val("");
@@ -154,6 +205,8 @@ $("#btnClearBloodBank").click(function (){
 });
 
 
+
+// load blood bank id in blood and other entity
 function loadBloodBankIds() {
     $.ajax({
         url: "http://localhost:8081/api/v1/bloodBank/getId",
@@ -163,7 +216,14 @@ function loadBloodBankIds() {
             if (response.data.length === 0) {
                 alert("No blood banks found.");
             } else {
-                alert("Blood banks loaded successfully.");
+                Swal.fire({
+                    icon: "success",
+                    title: "Blood Bank IDs Loaded!",
+                    text: "The Blood Bank IDs have been successfully loaded into the system.",
+                    showConfirmButton: true,
+                    confirmButtonText: "OK",
+                });
+
             }
             // Log the response to check the data structure
             let dropdown = $("#bloodBank");
@@ -180,7 +240,7 @@ function loadBloodBankIds() {
                 dropdown.append(option);
             });
 
-            // Add event listener to update the name when a blood bank ID is selected
+
             dropdown.change(function() {
                 let selectedId = $(this).val();  // Get the selected blood bank ID
                 if (selectedId) {
@@ -202,6 +262,10 @@ function loadBloodBankIds() {
         },
     });
 }
+
+
+
+
 
 
 

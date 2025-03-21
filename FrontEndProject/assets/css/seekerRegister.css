@@ -1,0 +1,111 @@
+body {
+    color: #777;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+#header {
+    background-color: white;
+}
+
+.header-top {
+    background-color: white;
+}
+
+.registration-container {
+    max-width: 800px;
+    margin: 50px auto;
+    margin-top: 150px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registration-container h1 {
+    text-align: center;
+    color: #ff4b4b;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 30px !important;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+#donorForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#donorForm p {
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.form-group {
+    flex: 1 1 calc(50% - 10px); /* Two columns with gap */
+    margin-bottom: 15px;
+}
+
+.form-group.full-width {
+    flex: 1 1 100%; /* Full width for textareas */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #222;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    color: #777;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.form-buttons {
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.form-buttons .btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    background: #ff4b4b;
+    color: #fff;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-buttons .btn:hover {
+    background: #1a3bbf; /* Darker shade of blue */
+}

@@ -25,12 +25,12 @@ public class Blood {
     private String bloodGroup;
     private Double bloodQty;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn(name = "bloodBankId")
     @JsonBackReference // Prevent circular reference
     private BloodBank bloodBank;
 
-    @OneToMany(mappedBy = "blood")
+    @OneToMany(mappedBy = "blood" , cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore // Avoid serializing the list of PendingDonner here
     private List<PendingDonner> pendingDonners;
 

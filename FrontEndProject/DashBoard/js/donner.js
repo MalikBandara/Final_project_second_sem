@@ -5,6 +5,8 @@ $(document).ready(function () {
     // LoadAllPendingDonner();
 });
 
+
+// load all donner into table
 function loadAllDonner(){
 
     $.ajax({
@@ -56,7 +58,7 @@ function loadAllDonner(){
 loadAllDonner();
 
 
-
+// load input when click
 function DonnerLoadToInputField(){
 
 
@@ -92,6 +94,8 @@ function DonnerLoadToInputField(){
 }
 
 
+
+// update donner
 $("#btnUpdateDonner").click(function (){
 
     let data = {
@@ -114,7 +118,14 @@ $("#btnUpdateDonner").click(function (){
         data:JSON.stringify(data),
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: "success",
+                title: "Donor Updated!",
+                text: "The donor's details have been successfully updated in the Blood Management System.",
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+            });
+
             loadAllDonner();
         }
         ,
@@ -125,6 +136,8 @@ $("#btnUpdateDonner").click(function (){
 
 })
 
+
+// clear donner
 $("#btnClearDonner").click(function (){
     $("#donnerId").text("")
     $("#donnerName").val("")
@@ -139,7 +152,7 @@ $("#btnClearDonner").click(function (){
 })
 
 
-
+// delete donner
 $("#btnDeleteDonner").click(function (){
     let DonnerId = $("#donnerId").text();
     $.ajax({
@@ -147,7 +160,14 @@ $("#btnDeleteDonner").click(function (){
         method:"DELETE",
         dataType:"json",
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: "success",
+                title: "Donor Deleted!",
+                text: "The donor has been successfully removed from the Blood Management System.",
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+            });
+
             loadAllDonner();
         },
         error:function (error){
@@ -158,6 +178,8 @@ $("#btnDeleteDonner").click(function (){
 
 
 
+
+// load blood ids in donner form
 function loadBloodIds() {
     $.ajax({
         url: "http://localhost:8081/api/v1/blood/loadBId",
@@ -195,6 +217,8 @@ function loadBloodIds() {
 }
 
 
+
+// load hospital and names in donner form
 function loadHospitalIdsAndName() {
     $.ajax({
         url: "http://localhost:8081/api/v1/hospitals/getIdH",
@@ -230,3 +254,4 @@ function loadHospitalIdsAndName() {
         }
     });
 }
+5
