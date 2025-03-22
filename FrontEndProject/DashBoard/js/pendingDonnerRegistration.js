@@ -7,11 +7,26 @@ $(document).ready(function () {
 
 // save pending donner
 $("#btnSavePDonner").click(function (){
+
+
+    let age = $("#age").val().trim();
+
+    // Age validation (must be a number between 18 and 65)
+    if (!/^\d+$/.test(age) || age < 18 || age > 65) {
+        Swal.fire({
+            icon: "warning",
+            title: "Invalid Age!",
+            text: "Please enter a valid age between 18 and 65.",
+            confirmButtonText: "OK"
+        });
+        return; // Stop the function if validation fails
+    }
+
     let data = {
         donnerName:$("#donorName").val(),
         blood:$("#bloodGroupId").val(),
         hospitalId:$("#HospitalId").val(),
-        age:$("#age").val(),
+        age:age,
         email:$("#email").val(),
         contact:$("#contactNumber").val(),
         address:$("#address").val(),
@@ -51,8 +66,24 @@ $("#btnSavePDonner").click(function (){
             });
 
         },
-        error:function (response){
-            alert(response.message)
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
+
+            // Check if the error response contains validation errors
+            if (error.responseJSON && error.responseJSON.data) {
+                // Extract the first error message from the data object
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
+                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+            }
+
+            // Display the error message using SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
         }
     })
 })
