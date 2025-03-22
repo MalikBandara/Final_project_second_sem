@@ -30,7 +30,7 @@ public class MailController {
                             "We appreciate your generosity and will contact you when a matching recipient needs your help.\n\n" +
                             "If you have any questions, feel free to reach out to us.\n\n" +
                             "Best Regards,\n" +
-                            "Blood Management System Team"
+                            "Blood Management System Blood Link Team"
             );
 
             javaMailSender.send(simpleMailMessage);
@@ -40,5 +40,32 @@ public class MailController {
             return new ResponseUtil(500, "Failed to send email. Please try again later.", null);
         }
     }
+
+
+    @PostMapping("update/{Email}")
+    public ResponseUtil UpdateStatus(@PathVariable String Email) {
+        try {
+            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+            simpleMailMessage.setSubject("Your Blood Donation Request Has Been Approved!");
+            simpleMailMessage.setTo(Email);
+            simpleMailMessage.setFrom("mmalith520@gmail.com");
+            simpleMailMessage.setText(
+                    "Dear Donor,\n\n" +
+                            "We are pleased to inform you that your blood donation request has been approved! 🎉\n\n" +
+                            "Your generosity and willingness to help those in need are truly appreciated.\n\n" +
+                            "Our team will contact you shortly with further details regarding the donation process.\n\n" +
+                            "If you have any questions, feel free to reach out to us.\n\n" +
+                            "Best Regards,\n" +
+                            "Blood Management System - Blood Link Team"
+            );
+
+            javaMailSender.send(simpleMailMessage);
+
+            return new ResponseUtil(201, "Approval email sent successfully!", null);
+        } catch (Exception e) {
+            return new ResponseUtil(500, "Failed to send approval email. Please try again later.", null);
+        }
+    }
+
 
 }

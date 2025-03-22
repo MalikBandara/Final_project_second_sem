@@ -78,22 +78,10 @@ $("#btnSavePDonner").click(function () {
                     url("https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif") 
                     center top / 150px no-repeat
                 `
+            }).then(() => {
+                // After closing the first alert, send the email
+                sendEmailNotification(email);
             });
-
-            $.ajax({
-
-                url:`http://localhost:8081/api/v1/email/send/${email}`,
-                method:"POST",
-                contentType:"application/json",
-                dataType:"json",
-                success:function (response){
-                    console.log(response)
-                },
-                error:function (error){
-                    console.error(error)
-                }
-
-            })
         },
         error: function (error) {
             let errorMessage = "An error occurred. Please try again.";
@@ -112,7 +100,36 @@ $("#btnSavePDonner").click(function () {
             });
         }
     });
+
+    function sendEmailNotification(email) {
+        $.ajax({
+            url: `http://localhost:8081/api/v1/email/send/${email}`,
+            method: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Email Sent!",
+                    text: "A confirmation email has been sent to the donor.",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#28a745" // Green color for success
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Email Failed!",
+                    text: "The email could not be sent. Please check the donor's email address.",
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+
+
 });
+
 
 
 
@@ -310,56 +327,81 @@ function LoadAllPendingDonner() {
 
 // when update status donner save
 function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, contact, email, address, description, status) {
+    // Update the pending donor status first
     $.ajax({
         url: `http://localhost:8081/api/v1/pDonner/updateStatus/${pendingDonnerId}`,
         method: "PUT",
         dataType: "json",
         success: function (response) {
-            console.log("donner status updated")
+            console.log("Donor status updated");
+
+            // Notify about the update via email
+            sendUpdateNotification(email);
+
+            // Reload the list of pending donors
             LoadAllPendingDonner();
 
+            // Prepare data to save the donor info
             let data = {
-                donnerName:donnerName,
-                age:age,
-                contact:contact,
-                email:email,
-                description:description,
-                address:address,
-                hospitalId:hospitalId,
-                bloodId:bloodId,
-                pendingDonnerId:pendingDonnerId
-            }
+                donnerName: donnerName,
+                age: age,
+                contact: contact,
+                email: email,
+                description: description,
+                address: address,
+                hospitalId: hospitalId,
+                bloodId: bloodId,
+                pendingDonnerId: pendingDonnerId
+            };
 
-
+            // Save the donor information
             $.ajax({
-                url:"http://localhost:8081/api/v1/donner/save",
-                method:"POST",
-                contentType:"application/json",
-                data:JSON.stringify(data),
-                dataType:"json",
-                success:function (response){
-                    Swal.fire({
-                        icon: "success",
-                        title: "Pending Donor Saved into Donner !",
-                        text: "The pending donor information has been successfully updated and Convert into Donner in the Blood Management System.",
-                        showConfirmButton: true,
-                        confirmButtonText: "OK",
-                    });
-
-
+                url: "http://localhost:8081/api/v1/donner/save",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function (response) {
+                    showAlert("success", "Pending Donor Saved into Donner!", "The pending donor information has been successfully updated and converted into a donor in the Blood Management System.");
                 },
-                error:function (error){
-                    alert(error.message)
+                error: function (error) {
+                    showAlert("error", "Save Failed!", "An error occurred while saving the donor information.");
                 }
-            })
-
-
+            });
         },
         error: function (error) {
-            alert(error.message);
+            showAlert("error", "Status Update Failed!", "An error occurred while updating the donor status.");
         }
     });
+
+    // Function to send an email notification
+    function sendUpdateNotification(email) {
+        $.ajax({
+            url: `http://localhost:8081/api/v1/email/update/${email}`,
+            method: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                showAlert("success", "Email Sent!", response.message);
+            },
+            error: function (error) {
+                showAlert("error", "Email Failed!", "The email could not be sent. Please check the donor's email address.");
+            }
+        });
+    }
+
+    // Reusable function for showing SweetAlert notifications
+    function showAlert(icon, title, text) {
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: text,
+            confirmButtonText: "OK",
+            confirmButtonColor: icon === "success" ? "#28a745" : "#d9232d", // Green for success, Red for error
+        });
+    }
 }
+
 
 
 // reject
@@ -398,7 +440,9 @@ function RejectPendingDonner(rejectDonner){
             alert(error.message)
         }
 
-    })
+    });
+
+
 }
 
 
