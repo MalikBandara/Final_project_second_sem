@@ -79,6 +79,21 @@ $("#btnSavePDonner").click(function () {
                     center top / 150px no-repeat
                 `
             });
+
+            $.ajax({
+
+                url:`http://localhost:8081/api/v1/email/send/${email}`,
+                method:"POST",
+                contentType:"application/json",
+                dataType:"json",
+                success:function (response){
+                    console.log(response)
+                },
+                error:function (error){
+                    console.error(error)
+                }
+
+            })
         },
         error: function (error) {
             let errorMessage = "An error occurred. Please try again.";
