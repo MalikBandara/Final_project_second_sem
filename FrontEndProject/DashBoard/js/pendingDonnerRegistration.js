@@ -6,10 +6,26 @@ $(document).ready(function () {
 
 
 // save pending donner
-$("#btnSavePDonner").click(function (){
-
-
+$("#btnSavePDonner").click(function () {
+    let donorName = $("#donorName").val().trim();
+    let bloodGroupId = $("#bloodGroupId").val().trim();
+    let hospitalId = $("#HospitalId").val().trim();
     let age = $("#age").val().trim();
+    let email = $("#email").val().trim();
+    let contact = $("#contactNumber").val().trim();
+    let address = $("#address").val().trim();
+    let description = $("#description").val().trim();
+
+    // Check if any field is empty
+    if (!donorName || !bloodGroupId || !hospitalId || !age || !email || !contact || !address || !description) {
+        Swal.fire({
+            icon: "warning",
+            title: "Missing Fields!",
+            text: "All fields are required. Please fill in all the details.",
+            confirmButtonText: "OK"
+        });
+        return; // Stop function if validation fails
+    }
 
     // Age validation (must be a number between 18 and 65)
     if (!/^\d+$/.test(age) || age < 18 || age > 65) {
@@ -19,65 +35,60 @@ $("#btnSavePDonner").click(function (){
             text: "Please enter a valid age between 18 and 65.",
             confirmButtonText: "OK"
         });
-        return; // Stop the function if validation fails
+        return; // Stop function if validation fails
     }
 
     let data = {
-        donnerName:$("#donorName").val(),
-        blood:$("#bloodGroupId").val(),
-        hospitalId:$("#HospitalId").val(),
-        age:age,
-        email:$("#email").val(),
-        contact:$("#contactNumber").val(),
-        address:$("#address").val(),
-        description:$("#description").val()
-
-    }
+        donnerName: donorName,
+        blood: bloodGroupId,
+        hospitalId: hospitalId,
+        age: age,
+        email: email,
+        contact: contact,
+        address: address,
+        description: description
+    };
 
     $.ajax({
-        url:"http://localhost:8081/api/v1/pDonner/save",
-        method:"POST",
-        contentType:"application/json",
-        data:JSON.stringify(data),
-        dataType:"json",
-        success:function (response){
+        url: "http://localhost:8081/api/v1/pDonner/save",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function (response) {
             Swal.fire({
                 icon: "success",
                 title: "Donation Request Submitted!",
                 html: `
-        <div style="font-size: 18px; font-weight: 500;">
-            Thank you, <span style="color: #d9232d;">${response.donorName || "Donor"}</span>! ❤️ <br>
-            Your request to donate blood has been successfully submitted. <br>
-            Our team will review it and connect you with a recipient soon.
-        </div>
-    `,
-                timer: 6000, // Auto-close after 6 seconds
+                    <div style="font-size: 18px; font-weight: 500;">
+                        Thank you, <span style="color: #d9232d;">${response.donorName || "Donor"}</span>! ❤️ <br>
+                        Your request to donate blood has been successfully submitted. <br>
+                        Our team will review it and connect you with a recipient soon.
+                    </div>
+                `,
+                timer: 6000,
                 timerProgressBar: true,
                 showConfirmButton: true,
                 confirmButtonText: "OK",
-                confirmButtonColor: "#d9232d", // Red color to match blood donation theme
+                confirmButtonColor: "#d9232d",
                 showCloseButton: true,
                 allowOutsideClick: false,
                 backdrop: `
-        rgba(0, 0, 0, 0.4)
-        url("https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif") 
-        center top / 150px no-repeat
-    `
+                    rgba(0, 0, 0, 0.4)
+                    url("https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif") 
+                    center top / 150px no-repeat
+                `
             });
-
         },
         error: function (error) {
             let errorMessage = "An error occurred. Please try again.";
 
-            // Check if the error response contains validation errors
             if (error.responseJSON && error.responseJSON.data) {
-                // Extract the first error message from the data object
                 const errorData = error.responseJSON.data;
-                const firstErrorKey = Object.keys(errorData)[0]; // Get the first key (e.g., "hospitalName")
-                errorMessage = errorData[firstErrorKey]; // Get the error message for that key
+                const firstErrorKey = Object.keys(errorData)[0];
+                errorMessage = errorData[firstErrorKey];
             }
 
-            // Display the error message using SweetAlert
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',
@@ -85,8 +96,9 @@ $("#btnSavePDonner").click(function (){
                 confirmButtonText: 'OK'
             });
         }
-    })
-})
+    });
+});
+
 
 
 // load blood ids in pending donner
