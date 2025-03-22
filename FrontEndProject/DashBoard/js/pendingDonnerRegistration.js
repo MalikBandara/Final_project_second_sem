@@ -302,7 +302,7 @@ function LoadAllPendingDonner() {
     <!-- Show the "Reject" button only if the status is neither "Rejected" nor "Approved" -->
     <button type="button" 
         class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" 
-        onclick="RejectPendingDonner(${pDonner.pendingDonnerId})"
+        onclick="RejectPendingDonner('${pDonner.pendingDonnerId}','${pDonner.email}')"
         style="display: ${pDonner.status === 'Rejected' || pDonner.status === 'Approved' ? 'none' : 'inline-block'};">
         Reject
     </button>
@@ -405,7 +405,7 @@ function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, con
 
 
 // reject
-function RejectPendingDonner(rejectDonner){
+function RejectPendingDonner(rejectDonner , email){
 
     // $.ajax({
     //     url:`http://localhost:8081/api/v1/pDonner/Reject/${rejectDonner}`,
@@ -433,7 +433,7 @@ function RejectPendingDonner(rejectDonner){
                 showConfirmButton: true,
                 confirmButtonText: "OK",
             });
-
+            sendEmailNotification(email)
             LoadAllPendingDonner();
         },
         error:function (error){
@@ -441,6 +441,32 @@ function RejectPendingDonner(rejectDonner){
         }
 
     });
+
+    function sendEmailNotification(email) {
+        $.ajax({
+            url: `http://localhost:8081/api/v1/email/reject/${email}`,
+            method: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Email Rejected!",
+                    text: response.message,
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#28a745" // Green color for success
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Email Failed!",
+                    text: "The email could not be sent. Please check the donor's email address.",
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
 
 
 }
