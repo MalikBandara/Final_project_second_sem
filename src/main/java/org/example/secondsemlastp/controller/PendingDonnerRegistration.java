@@ -44,6 +44,8 @@ public class PendingDonnerRegistration {
     }
 
 
+
+    // not use this
     @PutMapping("update")
     private ResponseUtil updatePDonner(@Valid @RequestBody PendingDonnerDto pendingDonnerDto){
         pendingDonnerService.updatePDonner(pendingDonnerDto);

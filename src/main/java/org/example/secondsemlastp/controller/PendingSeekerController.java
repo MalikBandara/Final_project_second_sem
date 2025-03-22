@@ -1,6 +1,7 @@
 package org.example.secondsemlastp.controller;
 
 
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.example.secondsemlastp.dto.PendingSeekerDto;
 import org.example.secondsemlastp.service.PendingSeekerService;
@@ -18,7 +19,7 @@ public class PendingSeekerController {
 
 
     @PostMapping("save")
-    private ResponseUtil savePendingSeeker(@RequestBody PendingSeekerDto pendingSeekerDto){
+    private ResponseUtil savePendingSeeker(@Valid @RequestBody PendingSeekerDto pendingSeekerDto){
         pendingSeekerService.savePendingSeeker(pendingSeekerDto);
         return new ResponseUtil(200,"Patient Register Successfully" , null);
     }

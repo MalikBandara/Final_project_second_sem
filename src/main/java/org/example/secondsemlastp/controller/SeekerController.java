@@ -1,5 +1,6 @@
 package org.example.secondsemlastp.controller;
 
+import jakarta.validation.Valid;
 import org.example.secondsemlastp.dto.SeekerDto;
 import org.example.secondsemlastp.service.SeekerService;
 import org.example.secondsemlastp.util.ResponseUtil;
@@ -31,7 +32,7 @@ public class SeekerController {
 
 
     @PutMapping("update")
-    private ResponseUtil updateSeeker(@RequestBody SeekerDto seekerDto){
+    private ResponseUtil updateSeeker(@Valid @RequestBody SeekerDto seekerDto){
         seekerService.updateSeeker(seekerDto);
         return new ResponseUtil(201, "update seeker" , null);
     }

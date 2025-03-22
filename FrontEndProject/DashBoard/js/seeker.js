@@ -188,29 +188,60 @@ function SeekerDataLoadIntoInput() {
 
 
 
-$("#btnUpdateSeeker").click(function (){
+$("#btnUpdateSeeker").click(function () {
+    let seekerId = $("#seekerId").text().trim();
+    let seekerName = $("#seekerName").val().trim();
+    let age = $("#age").val().trim();
+    let contact = $("#contact").val().trim();
+    let email = $("#email").val().trim();
+    let address = $("#address").val().trim();
+    let description = $("#description").val().trim();
+    let hospitalId = $("#hospitalId").val().trim();
+    let bloodId = $("#bloodGroupId").val().trim();
+    let pendingSeekerId = $("#pendingSeekerId").val().trim();
 
-    let data = {
-        seekerId:$("#seekerId").text(),
-        seekerName:$("#seekerName").val(),
-        age:$("#age").val(),
-        contact:$("#contact").val(),
-        email:$("#email").val(),
-        address:$("#address").val(),
-        description:$("#description").val(),
-        hospitalId:$("#hospitalId").val(),
-        bloodId:$("#bloodGroupId").val(),
-        pendingSeekerId:$("#pendingSeekerId").val()
+    // Check if any field is empty
+    if (!seekerId || !seekerName || !age || !contact || !email || !address || !description || !hospitalId || !bloodId || !pendingSeekerId) {
+        Swal.fire({
+            icon: "warning",
+            title: "Missing Fields!",
+            text: "All fields are required. Please fill in all the details.",
+            confirmButtonText: "OK"
+        });
+        return; // Stop function if validation fails
     }
 
+    // Age validation (must be a number between 18 and 65)
+    if (!/^\d+$/.test(age) || age < 18 || age > 65) {
+        Swal.fire({
+            icon: "warning",
+            title: "Invalid Age!",
+            text: "Please enter a valid age between 18 and 65.",
+            confirmButtonText: "OK"
+        });
+        return; // Stop function if validation fails
+    }
+
+    let data = {
+        seekerId: seekerId,
+        seekerName: seekerName,
+        age: age,
+        contact: contact,
+        email: email,
+        address: address,
+        description: description,
+        hospitalId: hospitalId,
+        bloodId: bloodId,
+        pendingSeekerId: pendingSeekerId
+    };
 
     $.ajax({
-        url:"http://localhost:8081/api/v1/Seeker/update",
-        method:"PUT",
-        contentType:"application/json",
-        data:JSON.stringify(data),
-        dataType:"json",
-        success:function (response){
+        url: "http://localhost:8081/api/v1/Seeker/update",
+        method: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function (response) {
             Swal.fire({
                 icon: "success",
                 title: "Seeker Updated!",
@@ -220,12 +251,25 @@ $("#btnUpdateSeeker").click(function (){
             });
             loadSeekerTable();
         },
-        error:function (error){
-            alert(error.message)
-        }
-    })
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
 
-})
+            if (error.responseJSON && error.responseJSON.data) {
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0];
+                errorMessage = errorData[firstErrorKey];
+            }
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+});
+
 
 
 $("#btnDeleteSeeker").click(function (){
