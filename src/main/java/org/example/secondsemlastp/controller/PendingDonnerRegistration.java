@@ -1,6 +1,7 @@
 package org.example.secondsemlastp.controller;
 
 
+import jakarta.validation.Valid;
 import org.example.secondsemlastp.dto.PendingDonnerDto;
 import org.example.secondsemlastp.entity.Donner;
 import org.example.secondsemlastp.service.PendingDonnerService;
@@ -23,7 +24,7 @@ public class PendingDonnerRegistration {
 
 
     @PostMapping("save")
-    private ResponseUtil savePendingDonner(@RequestBody PendingDonnerDto pendingDonnerDto){
+    private ResponseUtil savePendingDonner(@Valid @RequestBody PendingDonnerDto pendingDonnerDto){
         pendingDonnerService.savePDonner(pendingDonnerDto);
         return new ResponseUtil(200,"pending donner create" , null);
     }
@@ -44,7 +45,7 @@ public class PendingDonnerRegistration {
 
 
     @PutMapping("update")
-    private ResponseUtil updatePDonner(@RequestBody PendingDonnerDto pendingDonnerDto){
+    private ResponseUtil updatePDonner(@Valid @RequestBody PendingDonnerDto pendingDonnerDto){
         pendingDonnerService.updatePDonner(pendingDonnerDto);
         return new ResponseUtil(201, "pending donner updated" , null);
     }

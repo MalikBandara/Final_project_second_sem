@@ -1,6 +1,7 @@
 package org.example.secondsemlastp.controller;
 
 
+import jakarta.validation.Valid;
 import org.example.secondsemlastp.dto.DonnerDto;
 import org.example.secondsemlastp.service.DonnerService;
 import org.example.secondsemlastp.util.ResponseUtil;
@@ -29,7 +30,7 @@ public class DonnerController {
 
 
     @PutMapping("update")
-    private ResponseUtil updateDonner(@RequestBody DonnerDto donnerDto){
+    private ResponseUtil updateDonner(@Valid @RequestBody DonnerDto donnerDto){
         donnerService.updateDonner(donnerDto);
         return new ResponseUtil(201, "donner updated" , null);
     }

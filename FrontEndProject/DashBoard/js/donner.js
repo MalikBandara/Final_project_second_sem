@@ -96,28 +96,60 @@ function DonnerLoadToInputField(){
 
 
 // update donner
-$("#btnUpdateDonner").click(function (){
+$("#btnUpdateDonner").click(function () {
+    let donnerId = $("#donnerId").text().trim();
+    let donnerName = $("#donnerName").val().trim();
+    let age = $("#age").val().trim();
+    let contact = $("#contact").val().trim();
+    let email = $("#email").val().trim();
+    let description = $("#description").val().trim();
+    let address = $("#address").val().trim();
+    let hospitalId = $("#hospitalId").val().trim();
+    let bloodId = $("#bloodGroupId").val().trim();
+    let pendingDonnerId = $("#pendingDonnerId").val().trim();
 
-    let data = {
-        donnerId:$("#donnerId").text(),
-        donnerName:$("#donnerName").val(),
-        age:$("#age").val(),
-        contact:$("#contact").val(),
-        email:$("#email").val(),
-        description:$("#description").val(),
-        address:$("#address").val(),
-        hospitalId:$("#hospitalId").val(),
-        bloodId:$("#bloodGroupId").val(),
-        pendingDonnerId: $("#pendingDonnerId").val()
+    // Check if any field is empty
+    if (!donnerId || !donnerName || !age || !contact || !email || !description || !address || !hospitalId || !bloodId || !pendingDonnerId) {
+        Swal.fire({
+            icon: "warning",
+            title: "Missing Fields!",
+            text: "All fields are required. Please fill in all the details.",
+            confirmButtonText: "OK"
+        });
+        return; // Stop function if validation fails
     }
 
+    // Age validation (must be a number between 18 and 65)
+    if (!/^\d+$/.test(age) || age < 18 || age > 65) {
+        Swal.fire({
+            icon: "warning",
+            title: "Invalid Age!",
+            text: "Please enter a valid age between 18 and 65.",
+            confirmButtonText: "OK"
+        });
+        return; // Stop function if validation fails
+    }
+
+    let data = {
+        donnerId: donnerId,
+        donnerName: donnerName,
+        age: age,
+        contact: contact,
+        email: email,
+        description: description,
+        address: address,
+        hospitalId: hospitalId,
+        bloodId: bloodId,
+        pendingDonnerId: pendingDonnerId
+    };
+
     $.ajax({
-        url:"http://localhost:8081/api/v1/donner/update",
-        method:"PUT",
-        contentType:"application/json",
-        data:JSON.stringify(data),
-        dataType:"json",
-        success:function (response){
+        url: "http://localhost:8081/api/v1/donner/update",
+        method: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function (response) {
             Swal.fire({
                 icon: "success",
                 title: "Donor Updated!",
@@ -126,15 +158,27 @@ $("#btnUpdateDonner").click(function (){
                 confirmButtonText: "OK",
             });
 
-            loadAllDonner();
-        }
-        ,
-        error:function (error){
-            alert(error.message);
-        }
-    })
+            loadAllDonner(); // Reload donors list
+        },
+        error: function (error) {
+            let errorMessage = "An error occurred. Please try again.";
 
-})
+            if (error.responseJSON && error.responseJSON.data) {
+                const errorData = error.responseJSON.data;
+                const firstErrorKey = Object.keys(errorData)[0];
+                errorMessage = errorData[firstErrorKey];
+            }
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+});
+
 
 
 // clear donner
