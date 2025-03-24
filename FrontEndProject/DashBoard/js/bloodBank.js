@@ -8,6 +8,15 @@ $(document).ready(function () {
 
 //save blood bank
 $("#btnSaveBloodBank").click(function (){
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     console.log("test");
 
     const BdData = {
@@ -22,6 +31,9 @@ $("#btnSaveBloodBank").click(function (){
         contentType:"application/json",
         data:JSON.stringify(BdData),
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: 'success',
@@ -80,11 +92,23 @@ function  loadDataIntoInputFields(){
 //get all blood bank
 function loadBloodBank (){
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     $.ajax({
 
         url: "http://localhost:8081/api/v1/bloodBank/getAll",
         method:"GET",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             let tableBody = $("#bloodBankTableBody")
             tableBody.empty();
@@ -126,6 +150,14 @@ loadBloodBank();
 // update blood bank
 $("#btnUpdateBloodBank").click(function (){
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     console.log(bloodBankId);
 
     const  BdData = {
@@ -141,6 +173,9 @@ $("#btnUpdateBloodBank").click(function (){
         contentType:"application/json",
         data:JSON.stringify(BdData),
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: 'success',
@@ -176,9 +211,20 @@ $("#btnUpdateBloodBank").click(function (){
 // delete blood bank
 function deleteBloodBank(bloodBankId){
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url:`http://localhost:8081/api/v1/bloodBank/delete/${bloodBankId}`,
         method:"DELETE",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: 'success',
@@ -212,10 +258,22 @@ $("#btnClearBloodBank").click(function (){
 
 // load blood bank id in blood and other entity
 function loadBloodBankIds() {
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/bloodBank/getId",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (response.data.length === 0) {
                 alert("No blood banks found.");
