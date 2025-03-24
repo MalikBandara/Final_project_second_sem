@@ -15,10 +15,21 @@ $(document).ready(function (){
 
 function loadAllBlood(){
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url:"http://localhost:8081/api/v1/blood/getAll",
         method:"GET",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
 
             let bloodList = $("#bloodList");
