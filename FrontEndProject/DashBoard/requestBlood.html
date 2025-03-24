@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link rel="stylesheet" href="assets/css/animate-3.7.0.css" />
-    <link rel="stylesheet" href="assets/css/font-awesome-4.7.0.min.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap-4.1.3.min.css" />
-    <link rel="stylesheet" href="assets/css/owl-carousel.min.css" />
-    <link rel="stylesheet" href="assets/css/jquery.datetimepicker.min.css" />
-    <link rel="stylesheet" href="assets/css/linearicons.css" />
+    <link rel="stylesheet" href="../assets/css/animate-3.7.0.css" />
+    <link rel="stylesheet" href="../assets/css/font-awesome-4.7.0.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap-4.1.3.min.css" />
+    <link rel="stylesheet" href="../assets/css/owl-carousel.min.css" />
+    <link rel="stylesheet" href="../assets/css/jquery.datetimepicker.min.css" />
+    <link rel="stylesheet" href="../assets/css/linearicons.css" />
 
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="./assets/css/donnerRegister.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/donnerRegister.css" />
 
     <style>
       /* Add this to your CSS file (e.g., style.css) */
@@ -78,15 +78,15 @@
           <div class="row align-items-center justify-content-between d-flex">
             <div id="logo">
               <a href="index.html"
-                ><img src="assets/images/logo/logo.png" alt="" title=""
+                ><img src="../assets/images/logo/logo.png" alt="" title=""
               /></a>
             </div>
             <nav id="nav-menu-container">
               <ul class="nav-menu">
                 <li class="menu-active"><a href="index.html">Home</a></li>
-               
                 
-                <li><a href="./loginForm.html">Admin Login</a></li>
+        
+                <li><a href="loginForm.html">Admin Login</a></li>
                 
                 <li><a href="contact.html">Contact</a></li>
               </ul>
@@ -102,21 +102,21 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Blood Donor Registration</title>
-        <link rel="stylesheet" href="./assets/css/donnerRegister.css" />
+        <link rel="stylesheet" href="../assets/css/donnerRegister.css" />
         <!-- Link to your CSS file -->
       </head>
       <body>
         <div class="registration-container">
-            <h1>Blood Donor Registration</h1>
+            <h1>Request Blood</h1>
             <form id="donorForm">
-                <p>Blood Donor Entry Form</p>
+                <p>Blood Request Entry Form</p>
         
                 <!-- Donor Name -->
                 <div class="form-group">
-                    <label for="donorName">Donor Name:</label>
+                    <label for="PatientName">Patient Name:</label>
                     <input
                         type="text"
-                        id="donorName"
+                        id="PatientName"
                         name="donorName"
                         placeholder="Enter Donor Name"
                         required
@@ -125,21 +125,18 @@
         
                 <!-- Blood Group -->
                 <div class="form-group">
-                    <label for="bloodGroupId">Select Blood Group Id:</label>
-                    <select id="bloodGroupId" name="bloodGroup" required>
+                    <label for="bloodGroup">Need Blood Group:</label>
+                    <select id="bloodGroup" name="bloodGroup" required>
                         <option value="">Select Blood Group</option>
-
 
                     </select>
                 </div>
-
 
                 <div class="form-group">
                     <label for="age">Blood Group:</label>
                     <h4 id="BloodGroupName"></h4>
                 </div>
 
-                <!-- Blood Group -->
                 <div class="form-group">
                     <label >Select Hospital  Id:</label>
                     <select id="HospitalId" name="hospitalId" required>
@@ -154,10 +151,10 @@
                     <label for="age">Hospital Name:</label>
                     <h4 id="hospitalName"></h4>
                 </div>
-        
+
                 <!-- Age -->
                 <div class="form-group">
-                    <label for="age">Select Age:</label>
+                    <label for="age">Patient Age:</label>
                     <input
                         type="number"
                         id="age"
@@ -168,6 +165,9 @@
                 </div>
         
 
+        
+
+        
                 <!-- Email -->
                 <div class="form-group">
                     <label for="email">Contact Email:</label>
@@ -194,7 +194,7 @@
         
                 <!-- Full Address -->
                 <div class="form-group full-width">
-                    <label for="address">Full Address:</label>
+                    <label for="address">Patient Address:</label>
                     <textarea
                         id="address"
                         name="address"
@@ -215,8 +215,8 @@
         
                 <!-- Buttons -->
                 <div class="form-buttons">
-                    <button type="button" id="btnSavePDonner" class="btn">Submit</button>
-                    <button type="button" class="btn" id="resetButton">Reset</button>
+                    <button type="button" id="btnSavePatient" class="btn">Submit</button>
+                    <button type="button" class="btn">Reset</button>
                 </div>
             </form>
         </div>
@@ -226,18 +226,19 @@
       </body>
     </html>
 
+    <!-- Rest of your HTML content -->
+
 
   </body>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
-  <script src="assets/js/vendor/bootstrap-4.1.3.min.js"></script>
-  <script src="assets/js/vendor/wow.min.js"></script>
-  <script src="assets/js/vendor/owl-carousel.min.js"></script>
-  <script src="assets/js/vendor/jquery.datetimepicker.full.min.js"></script>
-  <script src="assets/js/vendor/jquery.nice-select.min.js"></script>
-  <script src="assets/js/vendor/superfish.min.js"></script>
-  <script src="./DashBoard/lib/jquery-3.7.1.min.js"> </script>
-  <script src="DashBoard/js/pendingDonnerRegistration.js"></script>
+  <script src="../assets/js/vendor/jquery-2.2.4.min.js"></script>
+  <script src="../assets/js/vendor/bootstrap-4.1.3.min.js"></script>
+  <script src="../assets/js/vendor/wow.min.js"></script>
+  <script src="../assets/js/vendor/owl-carousel.min.js"></script>
+  <script src="../assets/js/vendor/jquery.datetimepicker.full.min.js"></script>
+  <script src="../assets/js/vendor/jquery.nice-select.min.js"></script>
+  <script src="../assets/js/vendor/superfish.min.js"></script>
+  <script src="lib/jquery-3.7.1.min.js"></script>
+  <script src="js/PendingSeeker.js"></script>
 <!--  <script src="assets/js/main.js"></script>-->
 </html>

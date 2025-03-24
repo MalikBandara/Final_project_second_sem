@@ -20,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -63,22 +66,33 @@ public class WebSecurityConfig {
 
         }
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-            http.csrf(csrf -> csrf.disable())
-                    .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler)) //auth entry point
-                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Session management
-                    .authorizeHttpRequests(auth ->
-                            auth.requestMatchers("/auth/***").permitAll() // allow without authentication
-                                    .anyRequest().authenticated()
-                    );
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler)) // auth entry point
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Session management
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/api/admin/**").hasRole("ADMIN") // Admin-only routes
+                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // Both User and Admin
+                                .anyRequest().authenticated()
+                )
+                .authenticationProvider(authenticationProvider()) // Set the authentication provider
+                .addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class) // Add custom filter
 
-            http.authenticationProvider(authenticationProvider()); // set the authentication provider
+                // CORS Configuration
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://localhost:63342"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(List.of("*"));
+                    return config;
+                }));
 
-            http.addFilterBefore(authTokenFilter() , UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
 
-            return http.build();
-        }
 
 
 }

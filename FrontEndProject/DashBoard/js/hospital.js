@@ -2,6 +2,14 @@
 var HospitalId;
 
 $("#btnSaveHospitals").click(function (){
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
     
     console.log("Hospital click");
 
@@ -18,6 +26,9 @@ $("#btnSaveHospitals").click(function (){
         contentType:"application/json",
         data:JSON.stringify(hospitalData),
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function(resp){
             Swal.fire({
                     icon: 'success',
@@ -61,6 +72,14 @@ $("#btnUpdateHospitals").click(function (){
 
 
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     const data = {
         hospitalId:HospitalId,
         hospitalName: $("#name").val(),
@@ -75,6 +94,9 @@ $("#btnUpdateHospitals").click(function (){
         contentType:"application/json",
         data:JSON.stringify(data),
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: 'success',
@@ -110,17 +132,28 @@ $("#btnUpdateHospitals").click(function (){
 
 // load data into table
 
-function loadAllHospitals(){
+function loadAllHospitals() {
+    // Retrieve the token from local storage
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
 
     $.ajax({
-        url:"http://localhost:8081/api/v1/hospitals/getAll",
-        method:"GET",
+        url: "http://localhost:8081/api/v1/hospitals/getAll",
+        method: "GET",
         dataType: "json",
-        success:function (response){
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+        success: function (response) {
             let tableBody = $("#HospitalTableBody");
             tableBody.empty();
 
-            response.data.forEach(hospital =>{
+            response.data.forEach(hospital => {
                 let data = `
                 <tr>
                 <td>${hospital.hospitalId}</td>
@@ -128,36 +161,39 @@ function loadAllHospitals(){
                 <td>${hospital.location}</td>
                 <td>${hospital.contact}</td>
                 <td>
-    <button type="button" class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="deleteHospital(${hospital.hospitalId})">
-        <i class="fas fa-trash-alt"></i> 
-    </button>
-</td>
+                    <button type="button" class="btn bg-danger bg-gradient mt-1 me-2 text-light bg-opacity-70" onclick="deleteHospital(${hospital.hospitalId})">
+                        <i class="fas fa-trash-alt"></i> 
+                    </button>
+                </td>
+                </tr>
                 `;
 
                 tableBody.append(data);
             });
 
-
             LoadDataIntoInput();
-
         },
-        error:function (error){
-            alert("Error loading customer data: " + error.responseText);
+        error: function (error) {
+            alert("Error loading hospital data: " + error.responseText);
             console.error(error.responseText);
         }
-    })
-
-
+    });
 }
+
 
 
 
 // delete hospital
 function deleteHospital(hospitalId){
 
+    const token = localStorage.getItem('authToken');
+
     $.ajax({
         url:`http://localhost:8081/api/v1/hospitals/delete/${hospitalId}`,
         method:"DELETE",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: 'success',

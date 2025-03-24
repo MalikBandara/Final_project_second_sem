@@ -1,39 +1,51 @@
 package org.example.secondsemlastp.controller;
 
 import org.example.secondsemlastp.dto.LoginDto;
+
+import org.example.secondsemlastp.dto.LoginResponseDto;
 import org.example.secondsemlastp.security.jwt.JwtUtils;
-import org.example.secondsemlastp.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping
 @CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
     @Autowired
     private JwtUtils jwtUtils;
 
-    // when user login generate jwt token
+    // When user logs in, generate a JWT token
     @PostMapping("/auth/login")
-    private String userLogin(@RequestBody LoginDto loginDto){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
+    public ResponseEntity<LoginResponseDto> userLogin(@RequestBody LoginDto loginDto) {
+        try {
+            // Authenticate the user
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwtToken =   jwtUtils.generateJwtToken(authentication);
+            // Generate JWT token
+            String jwtToken = jwtUtils.generateJwtToken(authentication);
 
-        return jwtToken;
+            // Create response
+            LoginResponseDto response = new LoginResponseDto(jwtToken, "Login successful");
+
+            // Return a ResponseEntity with the JWT token and HTTP status
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // In case of an error, send a bad request response
+            LoginResponseDto errorResponse = new LoginResponseDto(null, "Invalid credentials");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     }
-
 }

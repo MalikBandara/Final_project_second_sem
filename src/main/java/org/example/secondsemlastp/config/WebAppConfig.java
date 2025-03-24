@@ -4,15 +4,17 @@ package org.example.secondsemlastp.config;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebAppConfig {
+public class WebAppConfig implements WebMvcConfigurer {
 
 
-    //dto convert into entity using this
     @Bean
     public ModelMapper modelMapper(){
 
         return  new ModelMapper();
     }
+
 }
