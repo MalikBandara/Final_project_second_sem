@@ -52,7 +52,13 @@ public class JwtUtils {
             }
     }
 
-    public String getUserNameFromJwtToken(String token){
-        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJwt(token).getBody().getSubject();
+    public String getUserNameFromJwtToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key()) // Ensure key() returns a valid secret key
+                .build()
+                .parseClaimsJws(token) // ✅ Correct method
+                .getBody()
+                .getSubject();
     }
+
 }
