@@ -16,7 +16,7 @@ import java.util.Date;
 @Configuration
 public class JwtUtils {
 
-    @Value("$(app.secret)")
+    @Value("${app.secret}")
     private String secret;
 
     private Key key(){
@@ -42,6 +42,17 @@ public class JwtUtils {
     }
 
     public boolean validateJwtToken(String token){
+            try{
+                Jwts.parserBuilder().setSigningKey(key()).build().parse(token);
+                return true;
 
+            }catch (Exception e ){
+                e.printStackTrace();
+                return false;
+            }
+    }
+
+    public String getUserNameFromJwtToken(String token){
+        return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJwt(token).getBody().getSubject();
     }
 }
