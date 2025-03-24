@@ -9,10 +9,22 @@ $(document).ready(function () {
 // load all donner into table
 function loadAllDonner(){
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     $.ajax({
         url:"http://localhost:8081/api/v1/donner/getAll",
         method:"GET",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
 
             let DonnerTableBody = $("#DonnerTableBody");
@@ -143,12 +155,25 @@ $("#btnUpdateDonner").click(function () {
         pendingDonnerId: pendingDonnerId
     };
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     $.ajax({
         url: "http://localhost:8081/api/v1/donner/update",
         method: "PUT",
         contentType: "application/json",
         data: JSON.stringify(data),
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -198,11 +223,23 @@ $("#btnClearDonner").click(function (){
 
 // delete donner
 $("#btnDeleteDonner").click(function (){
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     let DonnerId = $("#donnerId").text();
     $.ajax({
         url:`http://localhost:8081/api/v1/donner/delete/${DonnerId}`,
         method:"DELETE",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: "success",
@@ -211,6 +248,16 @@ $("#btnDeleteDonner").click(function (){
                 showConfirmButton: true,
                 confirmButtonText: "OK",
             });
+            $("#donnerId").text("")
+            $("#donnerName").val("")
+            $("#age").val("")
+            $("#contact").val("")
+            $("#email").val("")
+            $("#description").val("")
+            $("#address").val("")
+            $("#hospitalId").val("")
+            $("#bloodGroupId").val("")
+            $("#pendingDonnerId").val("")
 
             loadAllDonner();
         },
@@ -225,10 +272,22 @@ $("#btnDeleteDonner").click(function (){
 
 // load blood ids in donner form
 function loadBloodIds() {
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/blood/loadBId",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 alert("No blood banks found.");
@@ -264,10 +323,22 @@ function loadBloodIds() {
 
 // load hospital and names in donner form
 function loadHospitalIdsAndName() {
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/hospitals/getIdH",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 alert("No Hospital found.");
@@ -298,4 +369,3 @@ function loadHospitalIdsAndName() {
         }
     });
 }
-5
