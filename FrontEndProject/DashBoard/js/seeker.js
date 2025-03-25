@@ -9,11 +9,23 @@ $(document).ready(function () {
 function loadSeekerTable(){
     console.log("load")
 
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
 
         url:"http://localhost:8081/api/v1/Seeker/getAll",
         method:"GET",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
 
             let  SeekerTableBody = $("#SeekerTableBody");
@@ -64,10 +76,22 @@ loadSeekerTable();
 
 
 function loadBloodIds() {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/blood/loadBId",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 alert("No blood banks found.");
@@ -103,10 +127,22 @@ function loadBloodIds() {
 
 // load hospital and names in donner form
 function loadHospitalIdsAndName() {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/hospitals/getIdH",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 alert("No Hospital found.");
@@ -235,12 +271,23 @@ $("#btnUpdateSeeker").click(function () {
         pendingSeekerId: pendingSeekerId
     };
 
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/Seeker/update",
         method: "PUT",
         contentType: "application/json",
         data: JSON.stringify(data),
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -274,12 +321,24 @@ $("#btnUpdateSeeker").click(function () {
 
 $("#btnDeleteSeeker").click(function (){
 
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     let seekerId = $("#seekerId").text();
 
     $.ajax({
         url:`http://localhost:8081/api/v1/Seeker/delete/${seekerId}`,
         method:"DELETE",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: "success",
@@ -296,4 +355,19 @@ $("#btnDeleteSeeker").click(function (){
         }
     })
 
+})
+
+
+
+$("#btnClearSeeker").click(function (){
+    $("#seekerId").text("");        // For non-input elements (like <span>, <div>)
+    $("#seekerName").val("");       // Text input
+    $("#age").val("");              // Number input
+    $("#contact").val("");          // Tel input
+    $("#email").val("");            // Email input
+    $("#address").val("");          // Textarea
+    $("#description").val("");      // Textarea
+    $("#hospitalId").val("");       // Select dropdown
+    $("#bloodGroupId").val("");     // Select dropdown
+    $("#pendingSeekerId").val("");  // Hidden input
 })

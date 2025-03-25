@@ -47,12 +47,24 @@ $("#btnSavePatient").click(function () {
         age: age
     };
 
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     $.ajax({
         url: "http://localhost:8081/api/v1/PSeeker/save",
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -101,10 +113,22 @@ $("#btnSavePatient").click(function () {
 
 function LoadBloodIdsToSeekers(){
 
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/blood/loadBId",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 Swal.fire({
@@ -161,10 +185,23 @@ function LoadBloodIdsToSeekers(){
 
 
 function LoadHospitalIdsToSeeker(){
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     $.ajax({
         url: "http://localhost:8081/api/v1/hospitals/getIdH",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 alert("No Hospital found.");
@@ -215,10 +252,22 @@ function LoadHospitalIdsToSeeker(){
 
 function LoadAllSeekers(){
 
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url:"http://localhost:8081/api/v1/PSeeker/getAll",
         method:"GET",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
 
             let pendingSeekerTable = $("#pendingSeekerTable");
@@ -287,13 +336,26 @@ function LoadAllSeekers(){
 
 
 function UpdateStatus(seekerId, seekerName, age, contact, email, address, description, hospitalId, bloodId){
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     $.ajax({
         url:`http://localhost:8081/api/v1/PSeeker/updateStatus/${seekerId}`,
         method:"PUT",
         contentType:"application/json",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
-            alert(response.message)
+
             LoadAllSeekers();
 
             let data = {
@@ -316,8 +378,17 @@ function UpdateStatus(seekerId, seekerName, age, contact, email, address, descri
                 contentType:"application/json",
                 data:JSON.stringify(data),
                 dataType:"json",
+                headers: {
+                    'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+                },
                 success:function (response){
-                    alert(response.message)
+                    Swal.fire({
+                        icon: "success",
+                        title: "Pending Seeker Approved ! ",
+                        text: response.message,
+                        showConfirmButton: true,
+                        confirmButtonText: "OK",
+                    });
                 },
                 error:function (error){
                     alert(error.message)
@@ -336,17 +407,41 @@ function UpdateStatus(seekerId, seekerName, age, contact, email, address, descri
 
 function UpdateStatusToRemove(id){
 
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     $.ajax({
         url:`http://localhost:8081/api/v1/PSeeker/updateReject/${id}`,
         method:"PUT",
         contentType:"application/json",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
-            alert(response.message)
+            Swal.fire({
+                icon: "Rejected",
+                title: "Pending Seeker Rejected ! ",
+                text: response.message,
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+            });
             LoadAllSeekers();
         },
         error:function (error){
-            alert(error.message)
+            Swal.fire({
+                icon: "Rejected",
+                title: "Pending Seeker Rejected ! ",
+                text: error.message,
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+            });
         }
 
     })

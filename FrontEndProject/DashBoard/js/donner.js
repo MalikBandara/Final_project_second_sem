@@ -293,7 +293,13 @@ function loadBloodIds() {
                 alert("No blood banks found.");
                 return;
             } else {
-                alert("Blood type loaded successfully.");
+                Swal.fire({
+                    icon: "success",
+                    title: "Blood type loaded!",
+                    text: "Blood type and hospital load successfully !.",
+                    showConfirmButton: true,
+                    confirmButtonText: "OK",
+                });
             }
 
             let dropdown = $("#bloodGroupId");
@@ -344,7 +350,7 @@ function loadHospitalIdsAndName() {
                 alert("No Hospital found.");
                 return;
             } else {
-                alert("Hospital loaded successfully.");
+                console.log(response)
             }
 
             let dropdown = $("#hospitalId");

@@ -49,12 +49,23 @@ $("#btnSavePDonner").click(function () {
         description: description
     };
 
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/pDonner/save",
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -102,11 +113,23 @@ $("#btnSavePDonner").click(function () {
     });
 
     function sendEmailNotification(email) {
+
+        const token = localStorage.getItem('authToken');
+
+
+        if (!token) {
+            alert('No token found, please log in again.');
+            return;
+        }
+
         $.ajax({
             url: `http://localhost:8081/api/v1/email/send/${email}`,
             method: "POST",
             contentType: "application/json",
             dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+            },
             success: function (response) {
                 Swal.fire({
                     icon: "success",
@@ -135,10 +158,22 @@ $("#btnSavePDonner").click(function () {
 
 // load blood ids in pending donner
 function loadBloodIds() {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/blood/loadBId",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 Swal.fire({
@@ -197,10 +232,22 @@ function loadBloodIds() {
 
 // load hospital and name in pending donner
 function loadHospitalIdsAndName() {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/hospitals/getIdH",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             if (!response.data || response.data.length === 0) {
                 alert("No Hospital found.");
@@ -260,10 +307,23 @@ LoadAllPendingDonner();
 
 // load pending donner into table
 function LoadAllPendingDonner() {
+
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/pDonner/getAll",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             let pendingDonnerTable = $("#pendingDonnerTable");
             pendingDonnerTable.empty(); // Clear existing data
@@ -327,11 +387,26 @@ function LoadAllPendingDonner() {
 
 // when update status donner save
 function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, contact, email, address, description, status) {
+
+
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+
     // Update the pending donor status first
     $.ajax({
         url: `http://localhost:8081/api/v1/pDonner/updateStatus/${pendingDonnerId}`,
         method: "PUT",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             console.log("Donor status updated");
 
@@ -354,6 +429,15 @@ function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, con
                 pendingDonnerId: pendingDonnerId
             };
 
+
+            const token = localStorage.getItem('authToken');
+
+
+            if (!token) {
+                alert('No token found, please log in again.');
+                return;
+            }
+
             // Save the donor information
             $.ajax({
                 url: "http://localhost:8081/api/v1/donner/save",
@@ -361,6 +445,9 @@ function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, con
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 dataType: "json",
+                headers: {
+                    'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+                },
                 success: function (response) {
                     showAlert("success", "Pending Donor Saved into Donner!", "The pending donor information has been successfully updated and converted into a donor in the Blood Management System.");
                 },
@@ -376,11 +463,24 @@ function saveToDonner(pendingDonnerId, donnerName, bloodId, hospitalId, age, con
 
     // Function to send an email notification
     function sendUpdateNotification(email) {
+
+        const token = localStorage.getItem('authToken');
+
+
+        if (!token) {
+            alert('No token found, please log in again.');
+            return;
+        }
+
+
         $.ajax({
             url: `http://localhost:8081/api/v1/email/update/${email}`,
             method: "POST",
             contentType: "application/json",
             dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+            },
             success: function (response) {
                 showAlert("success", "Email Sent!", response.message);
             },
@@ -420,11 +520,22 @@ function RejectPendingDonner(rejectDonner , email){
     //     }
     // })
 
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
 
         url:`http://localhost:8081/api/v1/pDonner/updateStatusToReject/${rejectDonner}`,
         method:"PUT",
         dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success:function (response){
             Swal.fire({
                 icon: "warning",
@@ -443,11 +554,24 @@ function RejectPendingDonner(rejectDonner , email){
     });
 
     function sendEmailNotification(email) {
+
+
+        const token = localStorage.getItem('authToken');
+
+
+        if (!token) {
+            alert('No token found, please log in again.');
+            return;
+        }
+
         $.ajax({
             url: `http://localhost:8081/api/v1/email/reject/${email}`,
             method: "POST",
             contentType: "application/json",
             dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+            },
             success: function (response) {
                 Swal.fire({
                     icon: "success",

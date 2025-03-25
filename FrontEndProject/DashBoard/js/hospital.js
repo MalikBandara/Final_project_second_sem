@@ -188,6 +188,12 @@ function deleteHospital(hospitalId){
 
     const token = localStorage.getItem('authToken');
 
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url:`http://localhost:8081/api/v1/hospitals/delete/${hospitalId}`,
         method:"DELETE",

@@ -16,10 +16,22 @@ $(document).ready(function () {
 
 // Function to Load All Hospitals
 function loadAllHospitals() {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
     $.ajax({
         url: "http://localhost:8081/api/v1/hospitals/getAll",
         method: "GET",
         dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
         success: function (response) {
             let hospitalList = $("#hospitalList");
             hospitalList.empty();

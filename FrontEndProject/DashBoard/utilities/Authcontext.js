@@ -24,12 +24,29 @@ $("#btnLoginAction").click(function () {
                 window.location.replace("../DashBoard/indexDashBoard.html?_=" + new Date().getTime());
 
             } else {
-                alert("Login failed: " + res.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    html: res.message
+                        ? `Error: <strong>${res.message}</strong>`
+                        : 'Invalid email or password', // Fallback if no message
+                    confirmButtonColor: '#dc3545', // Red button
+                    showClass: {
+                        popup: 'animate__animated animate__headShake' // Shake animation for errors
+                    }
+
+                });
             }
         },
         error: function (err) {
             console.log("Error: ", err);
-            alert(err.message)
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: "The Username or password has been rejected from the system.",
+                showConfirmButton: true,
+                confirmButtonText: "OK",
+            });
             // Optionally, show a message to the user about the error
         }
     });
