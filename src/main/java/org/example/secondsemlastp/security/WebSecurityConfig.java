@@ -74,7 +74,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN") // Admin-only routes
-                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // Both User and Admin
+                                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")// Both User and Admin
+                                .requestMatchers("/api/v1/payment/**").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()) // Set the authentication provider

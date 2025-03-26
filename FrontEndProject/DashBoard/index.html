@@ -20,6 +20,40 @@
     <link rel="stylesheet" href="../assets/css/jquery.datetimepicker.min.css">
     <link rel="stylesheet" href="../assets/css/linearicons.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+
+
+    <style>
+        .donate-btn {
+            display: inline-block;
+            background-color: #e74c3c; /* Red color */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .donate-btn:hover {
+            background-color: #c0392b; /* Darker red on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
+        }
+
+        .donate-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(231, 76, 60, 0.4);
+        }
+
+        .donate-btn i {
+            margin-left: 8px;
+        }
+    </style>
 </head>
 <body>
     <!-- Preloader Starts -->
@@ -89,6 +123,7 @@
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact</a></li>
+                        <li><a href="./paypalform.html" class="donate-btn align-items-center text-white"> Donate</a></li>
                     </ul>
                 </nav><!-- #nav-menu-container -->		    		
                 </div>
