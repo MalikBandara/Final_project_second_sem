@@ -77,4 +77,9 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalDetails;
 
     }
+
+    @Override
+    public Long loadHospitalCount() {
+       return hospitalRepo.count();
+    }
 }

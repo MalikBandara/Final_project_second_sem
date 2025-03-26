@@ -329,7 +329,35 @@ function loadBloodBankIds() {
 
 
 
+function getCount(){
 
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+    $.ajax({
+        url:"http://localhost:8081/api/v1/bloodBank/getCount",
+        method:"GET",
+        dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+        success:function (res){
+
+            $("#bloodBankCount").text(res.data)
+        },
+        error:function (err){
+            console.error(err.message)
+        }
+    })
+
+}
+
+getCount();
 
 
 

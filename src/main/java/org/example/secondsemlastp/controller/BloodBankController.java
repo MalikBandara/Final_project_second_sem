@@ -38,6 +38,12 @@ public class BloodBankController {
         return new ResponseUtil(200, "BloodBank All Loaded" , bloodBankService.loadAllBank());
     }
 
+    @GetMapping("getCount")
+    private ResponseUtil loadBloodBankCount(){
+
+        return new ResponseUtil(200, "BloodBank count Loaded" , bloodBankService.loadCount());
+    }
+
 
     @DeleteMapping("delete/{id}")
     private ResponseUtil deleteBloodBank(@PathVariable Integer id){

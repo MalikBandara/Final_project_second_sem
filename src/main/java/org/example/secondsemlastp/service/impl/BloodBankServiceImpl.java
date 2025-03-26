@@ -91,5 +91,10 @@ public class BloodBankServiceImpl implements BloodBankService {
 
     }
 
+    @Override
+    public Long loadCount() {
+     return bloodBankRepo.count();
+    }
+
 
 }

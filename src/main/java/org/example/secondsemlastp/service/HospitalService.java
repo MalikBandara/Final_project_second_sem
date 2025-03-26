@@ -19,4 +19,6 @@ public interface HospitalService {
      void deleteHospital(Integer id);
 
     List<Map<String, Object>> getHospitalIdAndName();
+
+    Long loadHospitalCount();
 }

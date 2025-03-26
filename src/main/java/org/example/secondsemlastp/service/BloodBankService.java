@@ -15,4 +15,6 @@ public interface BloodBankService {
     void updateBloodBank(BloodBankDto bloodBankDto);
 
     List<Map<String,Object>> findIds();
+
+    Long loadCount();
 }

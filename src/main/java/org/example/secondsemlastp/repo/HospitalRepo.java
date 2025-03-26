@@ -13,4 +13,6 @@ public interface HospitalRepo  extends JpaRepository<Hospital , Integer> {
 
     @Query("SELECT h.hospitalId ,h.hospitalName FROM Hospital h")
     List<Object[]> findHospitalIdAndName();
+
+    long count();
 }

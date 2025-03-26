@@ -51,6 +51,11 @@ public class HospitalController {
             return new ResponseUtil(200 , "Hospital Loaded" , hospitalService.loadHospitals());
     }
 
+    @GetMapping("getCount")
+    private ResponseUtil getHospitalCunt(){
+        return new ResponseUtil(200 , "Hospital count Loaded" , hospitalService.loadHospitalCount());
+    }
+
 
     @GetMapping("getIdH")
     private ResponseUtil getHospitalIdAndName(){

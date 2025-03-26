@@ -200,6 +200,7 @@ function deleteHospital(hospitalId){
         headers: {
             'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
         },
+
         success:function (response){
             Swal.fire({
                 icon: 'success',
@@ -260,3 +261,34 @@ $("#btnClear").click(function (){
 
 
 loadAllHospitals();
+
+
+function getHospitalCount(){
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+    $.ajax({
+        url:"http://localhost:8081/api/v1/hospitals/getCount",
+        method:"GET",
+        dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+        success:function (res){
+
+            $("#hospitalCount").text(res.data)
+        },
+        error:function (err){
+            console.error(err.message)
+        }
+    })
+
+}
+
+getHospitalCount();

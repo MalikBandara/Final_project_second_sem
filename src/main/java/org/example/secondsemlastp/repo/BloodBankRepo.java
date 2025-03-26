@@ -14,4 +14,6 @@ public interface BloodBankRepo extends JpaRepository<BloodBank , Integer> {
     @Query("SELECT b.bloodBankID ,b.bloodBankName FROM BloodBank b")
     List<Object[]> findAllBloodBankIds();
     //pass entity and primary key type
+
+    long count();
 }
