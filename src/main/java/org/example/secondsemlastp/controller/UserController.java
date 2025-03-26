@@ -24,7 +24,7 @@ public class UserController {
     private ResponseUtil createUser(@RequestBody UserDto userDto){
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userService.createUser(userDto);
-        return new ResponseUtil(200 ,"Üser Create" , null);
+        return new ResponseUtil(200 ,"User Create" , null);
 
     }
 

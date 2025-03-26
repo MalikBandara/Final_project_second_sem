@@ -89,6 +89,7 @@ $("#btnSavePatient").click(function () {
         center top / 150px no-repeat
     `
             });
+            sendEmailNotification(email);
         },
         error: function (error) {
             let errorMessage = "An error occurred. Please try again.";
@@ -108,6 +109,45 @@ $("#btnSavePatient").click(function () {
         }
     });
 });
+
+
+function sendEmailNotification(email) {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+    $.ajax({
+        url: `http://localhost:8081/api/v1/email/sendSeeker/${email}`,
+        method: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+        success: function (response) {
+            Swal.fire({
+                icon: "success",
+                title: "Email Sent!",
+                text: "A confirmation email has been sent to the donor.",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#28a745" // Green color for success
+            });
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Email Failed!",
+                text: "The email could not be sent. Please check the donor's email address.",
+                confirmButtonText: "OK"
+            });
+        }
+    });
+}
 
 
 
@@ -356,6 +396,8 @@ function UpdateStatus(seekerId, seekerName, age, contact, email, address, descri
         },
         success:function (response){
 
+            sendEmailNotificationUpdate(email)
+
             LoadAllSeekers();
 
             let data = {
@@ -389,6 +431,7 @@ function UpdateStatus(seekerId, seekerName, age, contact, email, address, descri
                         showConfirmButton: true,
                         confirmButtonText: "OK",
                     });
+
                 },
                 error:function (error){
                     alert(error.message)
@@ -403,6 +446,85 @@ function UpdateStatus(seekerId, seekerName, age, contact, email, address, descri
         }
 
     })
+}
+
+
+function sendEmailNotificationUpdate(email) {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+    $.ajax({
+        url: `http://localhost:8081/api/v1/email/updateSeeker/${email}`,
+        method: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+        success: function (response) {
+            Swal.fire({
+                icon: "success",
+                title: "Email Sent!",
+                text: "A confirmation email has been sent to the donor.",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#28a745" // Green color for success
+            });
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Email Failed!",
+                text: "The email could not be sent. Please check the donor's email address.",
+                confirmButtonText: "OK"
+            });
+        }
+    });
+}
+
+
+
+function sendEmailNotificationReject(email) {
+
+    const token = localStorage.getItem('authToken');
+
+
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+    $.ajax({
+        url: `http://localhost:8081/api/v1/email/rejectSeeker/${email}`,
+        method: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+        success: function (response) {
+            Swal.fire({
+                icon: "success",
+                title: "Email Sent!",
+                text: "A confirmation email has been sent to the donor.",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#28a745" // Green color for success
+            });
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Email Failed!",
+                text: "The email could not be sent. Please check the donor's email address.",
+                confirmButtonText: "OK"
+            });
+        }
+    });
 }
 
 function UpdateStatusToRemove(id){
@@ -432,6 +554,7 @@ function UpdateStatusToRemove(id){
                 showConfirmButton: true,
                 confirmButtonText: "OK",
             });
+            sendEmailNotificationReject();
             LoadAllSeekers();
         },
         error:function (error){
