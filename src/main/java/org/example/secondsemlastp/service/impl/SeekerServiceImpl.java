@@ -113,4 +113,10 @@ public class SeekerServiceImpl implements SeekerService {
         }
 
     }
+
+    @Override
+    public Long loadSeekerCount() {
+        long count = seekerRepo.count();
+        return count;
+    }
 }

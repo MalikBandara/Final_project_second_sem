@@ -41,4 +41,10 @@ public class DonnerController {
         donnerService.deleteDonner(id);
         return new ResponseUtil(201,"donner delete" , null);
     }
+
+    @GetMapping("getCount")
+    private ResponseUtil getCount(){
+        Long count = donnerService.getCount();
+        return new ResponseUtil(201, "Donner count " , count);
+    }
 }

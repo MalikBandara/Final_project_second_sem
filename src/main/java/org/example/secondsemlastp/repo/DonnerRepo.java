@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DonnerRepo extends JpaRepository<Donner , Integer> {
+
+    long count();
 }

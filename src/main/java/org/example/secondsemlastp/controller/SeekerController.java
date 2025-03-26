@@ -31,6 +31,13 @@ public class SeekerController {
     }
 
 
+    @GetMapping("getCount")
+    private ResponseUtil loadSeekerCount(){
+        return new ResponseUtil(201, "loaded Seeker Count" , seekerService.loadSeekerCount());
+
+    }
+
+
     @PutMapping("update")
     private ResponseUtil updateSeeker(@Valid @RequestBody SeekerDto seekerDto){
         seekerService.updateSeeker(seekerDto);

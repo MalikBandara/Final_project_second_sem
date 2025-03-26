@@ -115,4 +115,10 @@ public class DonnerServiceImpl implements DonnerService {
         }
     }
 
+    @Override
+    public Long getCount() {
+        long count = donnerRepo.count();
+        return count;
+    }
+
 }

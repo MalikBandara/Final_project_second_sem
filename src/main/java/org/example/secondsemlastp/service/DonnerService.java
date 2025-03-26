@@ -13,4 +13,6 @@ public interface DonnerService {
     void updateDonner(DonnerDto donnerDto);
 
     void deleteDonner(Integer id);
+
+    Long getCount();
 }

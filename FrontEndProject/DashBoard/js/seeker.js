@@ -4,6 +4,7 @@ $(document).ready(function () {
     loadBloodIds();
     loadHospitalIdsAndName();
     // LoadAllPendingDonner();
+    getSeekerCount();
 });
 
 function loadSeekerTable(){
@@ -371,3 +372,32 @@ $("#btnClearSeeker").click(function (){
     $("#bloodGroupId").val("");     // Select dropdown
     $("#pendingSeekerId").val("");  // Hidden input
 })
+
+
+function getSeekerCount(){
+
+    const token = localStorage.getItem('authToken'); // Replace 'authToken' with the actual key used in localStorage
+
+    // Check if the token exists before making the request
+    if (!token) {
+        alert('No token found, please log in again.');
+        return;
+    }
+
+    $.ajax({
+        url:"http://localhost:8081/api/v1/Seeker/getCount",
+        method:"GET",
+        dataType:"json",
+        headers: {
+            'Authorization': 'Bearer ' + token // Add the token as a Bearer token in the Authorization header
+        },
+        success:function (res){
+
+            $("#seekerCunt").text(res.data)
+        },
+        error:function (err){
+            console.error(err.message)
+        }
+    })
+
+}

@@ -13,5 +13,6 @@ public interface SeekerService {
 
     void deleteSeeker(Integer id);
 
+    Long loadSeekerCount();
 }
 
