@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(UserDto userDto) {
         if (userRepo.existsById(userDto.getUserId())){
-            throw new RuntimeException("User already exist ");
+            throw new RuntimeException("User already exist");
         }else {
             userRepo.save(modelMapper.map(userDto , User.class));
         }
