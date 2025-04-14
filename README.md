@@ -79,7 +79,7 @@ Support the blood donation infrastructure by allowing users to donate money secu
 ### 🎥 Demo Video
 
 🎬 Watch the Full System Walkthrough on YouTube
-📹 Video Link: CMJD-SandunilMalikBandara-BloodManagementSystem
+[🔗 Watch Now on YouTube](https://youtu.be/UoWwZoXF4QI?si=wEWhv1Lznum7Dq7e) to watch the video.
 
 ---
 
