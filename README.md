@@ -5,7 +5,7 @@ The Blood Management System is a full-stack web application built using Spring B
 
 ## 🚀 Features
 
-🧑‍📝 Donor Registration
+### 🧑‍📝 Donor Registration
 
 Users can register as blood donors by submitting personal, contact, and medical information. Donor profiles can be managed by the admin.
 
