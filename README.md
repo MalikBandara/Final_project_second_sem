@@ -76,14 +76,29 @@ Support the blood donation infrastructure by allowing users to donate money secu
 
 ---
 
-### 🎥 Demo Video
+---
 
-🎬 Watch the Full System Walkthrough on YouTube
-[🔗 Watch Now on YouTube](https://youtu.be/UoWwZoXF4QI?si=wEWhv1Lznum7Dq7e) to watch the video.
+## 🎥 Demo Video
+
+<div align="center">
+  
+🎬 **Watch the Full System Walkthrough**  
+Explore all the features, functionalities, and user interfaces of the Blood Management System in this detailed demo video.
+
+📺 [![Watch Now](https://img.youtube.com/vi/UoWwZoXF4QI/0.jpg)](https://youtu.be/UoWwZoXF4QI?si=wEWhv1Lznum7Dq7e)
+
+🔗 **Click the image above or [Watch Now on YouTube](https://youtu.be/UoWwZoXF4QI?si=wEWhv1Lznum7Dq7e)**
+
+
+</div>
 
 ---
 
-### Thank you!
+### 🙏 Thank You!
+
+Thank you for taking the time to explore this project!  
+If you like it, feel free to ⭐ star the repo and share your feedback. Contributions and suggestions are always welcome!
+
 
 
 
