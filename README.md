@@ -50,15 +50,36 @@ Support the blood donation infrastructure by allowing users to donate money secu
 
 ## 📸 Screenshots
 
+> Home Page  
 ![image](https://github.com/user-attachments/assets/0f3c847b-f0cb-42b6-a838-f1472e85e827)
 
+> Dashboard  
 ![image](https://github.com/user-attachments/assets/d661c945-97c0-4b8d-8db9-0edf6d1edd58)
 
+> Donor Registration Form  
 ![image](https://github.com/user-attachments/assets/bfa27764-206f-441f-9b2d-3bea5b1e2ba7)
 
-
-
-
 ---
+
+## ⚙️ Setup Instructions
+
+### 📦 Prerequisites
+
+- Java 17+
+- Maven
+- MySQL Server
+- IDE like IntelliJ IDEA / Eclipse
+- Postman for API testing
+
+### 🔧 Backend Setup (Spring Boot)
+
+
+### 🎥 Demo Video
+
+🎬 Watch the Full System Walkthrough on YouTube
+📹 Video Link: CMJD-SandunilMalikBandara-BloodManagementSystem
+
+
+
 
 
