@@ -50,8 +50,15 @@ Support the blood donation infrastructure by allowing users to donate money secu
 
 ## 📸 Screenshots
 
-> *(Add UI screenshots here – e.g., login screen, donor form, blood stock dashboard, etc.)*
+![image](https://github.com/user-attachments/assets/0f3c847b-f0cb-42b6-a838-f1472e85e827)
+
+![image](https://github.com/user-attachments/assets/d661c945-97c0-4b8d-8db9-0edf6d1edd58)
+
+![image](https://github.com/user-attachments/assets/bfa27764-206f-441f-9b2d-3bea5b1e2ba7)
+
+
+
 
 ---
 
-Let me know if you want me to add a `Getting Started`, `Installation`, or `Contributing` section as well!
+
