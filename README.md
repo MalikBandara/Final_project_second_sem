@@ -41,7 +41,7 @@ Support the blood donation infrastructure by allowing users to donate money secu
 ## 🛠️ Technologies Used
 
 - **Backend:** Spring Boot, Spring Security, JWT Authentication  
-- **Frontend:** HTML5, CSS3, Bootstrap 5, JSP *(or Thymeleaf if used)*  
+- **Frontend:** HTML5, CSS3, Bootstrap 5
 - **Database:** MySQL  
 - **Build Tool:** Maven  
 - **APIs & Integration:** JavaMail for email, PayPal API for donation  
